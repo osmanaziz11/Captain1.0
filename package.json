@@ -8,13 +8,15 @@
   "scripts": {
     "dev": "nextron",
     "build": "nextron build",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps",
+    "start": "electron ."
   },
   "dependencies": {
     "autoprefixer": "^10.4.14",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.1.0",
     "postcss": "^8.4.23",
+    "react-top-loading-bar": "^2.3.1",
     "tailwindcss": "^3.3.2"
   },
   "devDependencies": {
