@@ -1,18 +1,11 @@
 import React from 'react';
-import Head from 'next/head';
 
-function Home() {
+const Home = () => {
   return (
-    <React.Fragment>
-      <Head>
-        <title>Home - Nextron (with-javascript)</title>
-      </Head>
-      <div>
-        <p className="">Hi</p>
-        <img src="/images/logo.png" />
-      </div>
-    </React.Fragment>
+    <div>
+      <h1 className="text-white">Home</h1>
+    </div>
   );
-}
+};
 
 export default Home;
