@@ -3,7 +3,7 @@ import React from 'react';
 const Canteen = () => {
   return (
     <div>
-      <h1 className="text-white">Canteen</h1>
+      <h1 className="linear-gradient">Canteen</h1>
     </div>
   );
 };

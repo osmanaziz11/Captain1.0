@@ -1,49 +1,46 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import NavIcons, { GameType, Home, Members, Manage, Canteen } from './NavIcons';
 
 const LeftBar = () => {
   const router = useRouter();
-  const { slug } = router.query;
   const menu = [
     {
-      icon: 'snooker.svg',
+      icon: 'GameType',
       slug: '/',
     },
     {
-      icon: 'home.svg',
+      icon: 'Home',
       slug: '/home',
     },
     {
-      icon: 'manage.svg',
+      icon: 'Manage',
       slug: '/manage',
     },
     {
-      icon: 'team.svg',
+      icon: 'Members',
       slug: '/members',
     },
     {
-      icon: 'canteen.svg',
+      icon: 'Canteen',
       slug: '/canteen',
     },
   ];
+  // non active color:: #707070
   return (
     <div className="nav bg-[#141414] w-[50px] h-screen absolute left-0 top-0 px-2">
       <ul className="  h-3/4 pt-14">
         {menu.map((item, idx) => {
           return (
-            <li
-              key={idx}
-              className="my-5 p-1 bg-[#272727] rounded cursor-pointer text-red-900"
-            >
-              <Link href={item.slug}>
-                <img
-                  src={`/assets/${item.icon}`}
-                  alt=""
-                  className=" text-white"
+            <Link href={item.slug} key={idx}>
+              <li className="my-5 p-1 bg-[#272727] rounded cursor-pointer ">
+                <NavIcons
+                  type={item.icon}
+                  color={router.pathname === item.slug ? '#96A826' : '#707070'}
                 />
-              </Link>
-            </li>
+              </li>
+            </Link>
           );
         })}
       </ul>

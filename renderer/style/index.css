@@ -14,3 +14,10 @@
 .logo_container {
   border-right: 0.5px solid #333232;
 }
+
+.linear-gradient {
+  background-image: linear-gradient(to bottom, white, transparent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
