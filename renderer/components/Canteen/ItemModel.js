@@ -1,9 +1,12 @@
 import React from 'react';
 import Quantity from './Quantity';
+import { closeCart } from '../../redux/action';
+import { useDispatch } from 'react-redux';
 
 const ItemModel = () => {
+  const dispatch = useDispatch();
   return (
-    <div className="absolute top-0 w-full h-full bg-[#0c0c0cd5] flex justify-center items-center z-50">
+    <div className="absolute top-0 w-screen h-full bg-[#0c0c0cd5] flex justify-center items-center z-50 right-0">
       <div className="w-[400px] h-[300px] bg-[#131212] rounded shadow-lg flex flex-col justify-between py-5 items-center">
         <h1 className="text-white font-semibold text-2xl linear-gradient">
           Choose Table
@@ -39,7 +42,10 @@ const ItemModel = () => {
           </div>
         </div>
         <div className="flex justify-center items-center">
-          <button className="rounded-full bg-[#BB3232] text-white text-sm px-5 py-1">
+          <button
+            className="rounded-full bg-[#BB3232] text-white text-sm px-5 py-1"
+            onClick={() => dispatch(closeCart())}
+          >
             Cancel
           </button>
           <button className="rounded-full bg-[#22722E] text-white text-sm ms-3 px-5 py-1">

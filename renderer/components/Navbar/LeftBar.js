@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
-import NavIcons, { GameType, Home, Members, Manage, Canteen } from './NavIcons';
+import NavIcons from './NavIcons';
 
 const LeftBar = () => {
   const router = useRouter();
@@ -20,16 +20,20 @@ const LeftBar = () => {
     },
     {
       icon: 'Members',
-      slug: '/members',
+      slug: '/pending',
     },
     {
       icon: 'Canteen',
       slug: '/canteen',
     },
+    {
+      icon: 'Setting',
+      slug: '/setting',
+    },
   ];
   // non active color:: #707070
   return (
-    <div className="nav bg-[#141414] w-[50px] h-screen absolute left-0 top-0 px-2">
+    <div className="nav bg-[#141414] w-[50px] h-screen absolute left-0 top-0 px-2 z-0">
       <ul className="  h-3/4 pt-14">
         {menu.map((item, idx) => {
           return (
@@ -44,7 +48,10 @@ const LeftBar = () => {
           );
         })}
       </ul>
-      <ul className=" h-[25%] flex justify-center items-end pb-10">
+      <ul className=" h-[25%] flex flex-col justify-end items-end  pb-4">
+        <li className="p-1 bg-[#272727] rounded w-full mb-3">
+          <img src={`/assets/setting.svg`} alt="" />
+        </li>
         <li className="p-1 bg-[#272727] rounded">
           <img src={`/assets/logout.svg`} alt="" />
         </li>
