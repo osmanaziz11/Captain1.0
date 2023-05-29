@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const PendingTable = () => {
+const PendingTable = (props) => {
   return (
     <section class="w-full  mx-auto">
       <div class="flex flex-col">
@@ -192,7 +192,10 @@ const PendingTable = () => {
                         class="flex items-center gap-x-6 justify-center
                       "
                       >
-                        <button class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
+                        <button
+                          class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none"
+                          onClick={() => props.setMemberHistory(true)}
+                        >
                           View
                         </button>
 

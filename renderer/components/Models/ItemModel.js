@@ -1,5 +1,5 @@
 import React from 'react';
-import Quantity from './Quantity';
+import Quantity from '../Canteen/Quantity';
 import { closeCart } from '../../redux/action';
 import { useDispatch } from 'react-redux';
 

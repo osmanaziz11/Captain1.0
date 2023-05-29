@@ -3,10 +3,10 @@ import Search from '../components/Canteen/Search';
 import Item from '../components/Canteen/Item';
 import React from 'react';
 import FloatingCart from '../components/Canteen/FloatingCart';
+import ItemModel from '../components/Models/ItemModel';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetCart } from '../redux/action';
 import { useEffect } from 'react';
-import ItemModel from '../components/Canteen/ItemModel';
 
 const Canteen = () => {
   const category = ['All', 'Drinks', 'Fast Food', 'Shakes', 'Junk'];

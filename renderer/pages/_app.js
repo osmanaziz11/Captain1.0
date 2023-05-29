@@ -1,4 +1,3 @@
-import ItemModel from '../components/Canteen/ItemModel';
 import LeftBar from '../components/Navbar/LeftBar';
 import TopBar from '../components/Navbar/TopBar';
 import Footer from '../components/Footer';
