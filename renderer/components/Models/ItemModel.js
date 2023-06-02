@@ -1,59 +1,72 @@
 import React from 'react';
-import Quantity from '../Canteen/Quantity';
-import { closeCart } from '../../redux/action';
-import { useDispatch } from 'react-redux';
+import ThemeModel from './theme';
 
 const ItemModel = () => {
-  const dispatch = useDispatch();
+  const gallery = [1, 2, 3, 4];
   return (
-    <div className="absolute top-0 w-screen h-full bg-[#0c0c0cd5] flex justify-center items-center z-50 right-0">
-      <div className="w-[400px] h-[300px] bg-[#131212] rounded shadow-lg flex flex-col justify-between py-5 items-center">
-        <h1 className="text-white font-semibold text-2xl linear-gradient">
-          Choose Table
-        </h1>
-        <div>
-          <select
-            id="countries"
-            className="border-[#918c8c] border-2 bg-transparent text-white  text-sm rounded block w-full  py-2 px-5 placeholder-gray-400 "
-          >
-            <option value="US">United States</option>
-            <option value="CA">Canada</option>
-            <option value="FR">France</option>
-            <option value="DE">Germany</option>
-          </select>
-        </div>
-        <div className="h-[100px] w-full px-10 flex justify-between items-center">
-          <div className="text-white">
-            <p>Title:</p>
-            <p>Price:</p>
-            <p>Quantity:</p>
-            <p>Total</p>
+    <ThemeModel title="New Item Inventory">
+      <div className="w-full flex justify-between h-full">
+        <form class="space-y-6 w-3/5" action="#">
+          <div className="w-full">
+            <h4 className="linear-gradient">Please fill item information</h4>
           </div>
-          <div className="text-white flex flex-col justify-center items-center">
-            <p>Coke Tin</p>
-            <p>Rs/- 100</p>
-            <p>
-              <Quantity />
-            </p>
-            <p>100</p>
+          <div class="relative w-full  pe-2">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                viewBox="0 0 15 15"
+              >
+                <path
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                  d="M0 3.5A1.5 1.5 0 0 1 1.5 2h12A1.5 1.5 0 0 1 15 3.5v8a1.5 1.5 0 0 1-1.5 1.5h-12A1.5 1.5 0 0 1 0 11.5v-8ZM3 6a2 2 0 1 1 4 0a2 2 0 0 1-4 0Zm9 0H9V5h3v1Zm0 3H9V8h3v1ZM5 9a2.927 2.927 0 0 0-2.618 1.618l-.33.658A.5.5 0 0 0 2.5 12h5a.5.5 0 0 0 .447-.724l-.329-.658A2.927 2.927 0 0 0 5 9Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <input
+              type="text"
+              id="voice-search"
+              class="outline-none border-b-[#272727] bg-[#1b1b1b] text-gray-400 text-sm rounded-sm block w-full pl-10 p-2.5   placeholder-gray-400 "
+              placeholder="Item Name"
+              required
+            />
           </div>
-          <div className=" h-full">
-            <img src="/assets/item.png" className="w-full h-full" alt="" />
+        </form>
+        {/* Item Gallery  */}
+        <div className="w-[38%] space-y-6 h-[280px] overflow-hidden ">
+          <div className="w-full">
+            <h4 className="linear-gradient">Choose Item Thumbnail</h4>
+          </div>
+          <div className="w-full flex justify- item flex-wrap ">
+            {/* selected item border-2 border-[#3AB54A] */}
+            {gallery.length > 0 &&
+              gallery.map((item, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className="w-[65px] h-[68px]  mb-1 me-[2.9px] rounded-sm shadow-lg bg-[#1b1b1b] p-2 cursor-pointer"
+                  >
+                    <img
+                      src="/assets/item.png"
+                      className="w-full h-full object-contain  transition-all"
+                      alt=""
+                    />
+                  </div>
+                );
+              })}
           </div>
         </div>
-        <div className="flex justify-center items-center">
-          <button
-            className="rounded-full bg-[#BB3232] text-white text-sm px-5 py-1"
-            onClick={() => dispatch(closeCart())}
-          >
-            Cancel
-          </button>
-          <button className="rounded-full bg-[#22722E] text-white text-sm ms-3 px-5 py-1">
-            Prcoeed
-          </button>
-        </div>
+        {/* End  */}
       </div>
-    </div>
+      <button
+        type="submit"
+        class="w-full text-white mt-5  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-[#22722E]"
+      >
+        Add
+      </button>
+    </ThemeModel>
   );
 };
 

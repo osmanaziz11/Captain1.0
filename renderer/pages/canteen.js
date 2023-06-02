@@ -1,12 +1,13 @@
+import FloatingCart from '../components/Canteen/FloatingCart';
+import { useDispatch, useSelector } from 'react-redux';
+import ItemModel from '../components/Models/ItemModel';
 import Category from '../components/Canteen/Category';
 import Search from '../components/Canteen/Search';
 import Item from '../components/Canteen/Item';
-import React from 'react';
-import FloatingCart from '../components/Canteen/FloatingCart';
-import ItemModel from '../components/Models/ItemModel';
-import { useDispatch, useSelector } from 'react-redux';
 import { resetCart } from '../redux/action';
 import { useEffect } from 'react';
+import React from 'react';
+import Cart from '../components/Models/Cart';
 
 const Canteen = () => {
   const category = ['All', 'Drinks', 'Fast Food', 'Shakes', 'Junk'];
@@ -21,7 +22,7 @@ const Canteen = () => {
 
   return (
     <>
-      {cart && <ItemModel />}
+      {!cart && <Cart />}
       <div className="canteen p-10 w-full h-full overflow-scroll">
         {/* ==== Filters & Search ===== */}
         <div className="w-full h-[50px] flex">

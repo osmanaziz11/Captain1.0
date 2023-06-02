@@ -7,7 +7,7 @@ const ItemsTable = () => {
         <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
           <tr>
             <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-              Product name
+              Item name
             </th>
             <th scope="col" class="px-6 py-3">
               Quantity
@@ -16,7 +16,10 @@ const ItemsTable = () => {
               Category
             </th>
             <th scope="col" class="px-6 py-3">
-              Price
+              Purchase Price
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Sale Price
             </th>
             <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
               Remaining

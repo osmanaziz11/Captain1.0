@@ -11,8 +11,6 @@
 .topNav {
   border-bottom: 0.5px solid #333232;
 }
-.logo_container {
-}
 
 .linear-gradient {
   background-image: linear-gradient(to bottom, white, transparent);
@@ -24,3 +22,18 @@
 .canteen::-webkit-scrollbar {
   display: none;
 }
+
+/* ==== Game option window animations ==== */
+.moveUpword {
+  top: -140px;
+  transition: all 0.8s;
+}
+.active {
+  top: 0px !important;
+  transition: all 0.8s;
+}
+.moveDownword {
+  top: 140px;
+  transition: all 0.8s;
+}
+/* ==== End ==== */
