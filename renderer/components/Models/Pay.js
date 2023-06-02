@@ -1,8 +1,12 @@
 import React from 'react';
+import { AmountField } from './inputs';
 
-const Pay = () => {
+const Pay = ({ handler }) => {
   return (
-    <div className="absolute top-0 w-full h-full flex justify-center items-center bg-[#0c0c0cd5] z-50">
+    <div
+      className="absolute top-0 w-full h-full flex justify-center items-center bg-[#0c0c0cd5] z-40"
+      onClick={() => handler(false)}
+    >
       <div class="flex">
         <button
           id="dropdown-button"
@@ -13,7 +17,7 @@ const Pay = () => {
           Balance 1200{' '}
         </button>
 
-        <div class="relative w-full h-full">
+        <div class="relative w-full h-full z-50">
           <AmountField />
           <button
             type="submit"

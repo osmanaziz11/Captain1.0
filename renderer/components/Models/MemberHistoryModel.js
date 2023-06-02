@@ -1,7 +1,9 @@
 import React from 'react';
 import History from './History';
-import { AmountField } from './inputs';
+import { useState } from 'react';
+import Pay from './Pay';
 const MemberHistoryModel = (props) => {
+  const [pay, setPay] = useState(false);
   return (
     <div
       id="authentication-modal"
@@ -9,6 +11,7 @@ const MemberHistoryModel = (props) => {
       aria-hidden="true"
       class="fixed top-0 left-0 right-0 z-50 flex justify-center items-center bg-[#0c0c0cd5] w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0  h-full"
     >
+      {pay && <Pay handler={setPay} />}
       <div class="relative w-full max-w-md max-h-full">
         <div class="relative bg-[#131212] rounded shadow-lg pb-4">
           <button
@@ -41,7 +44,10 @@ const MemberHistoryModel = (props) => {
             <History />
           </div>
           <div>
-            <p className="text-center text-green-700 font-medium cursor-pointer hover:text-green-600 transition">
+            <p
+              className="text-center text-green-700 font-medium cursor-pointer hover:text-green-600 transition"
+              onClick={() => setPay(true)}
+            >
               Let's Pay
             </p>
             <p className="text-center text-red-700 font-medium cursor-pointer hover:text-red-600 transition">
