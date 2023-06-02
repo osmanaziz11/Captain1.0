@@ -22,7 +22,7 @@ const Canteen = () => {
 
   return (
     <>
-      {!cart && <Cart />}
+      {/* {cart && <Cart />} */}
       <div className="canteen p-10 w-full h-full overflow-scroll">
         {/* ==== Filters & Search ===== */}
         <div className="w-full h-[50px] flex">

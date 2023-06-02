@@ -87,6 +87,10 @@ const ItemsTable = () => {
             <td class="px-6 py-4">Red</td>
             <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">Wearables</td>
             <td class="px-6 py-4">$999</td>
+            <td class="px-6 py-4">$999</td>
+            <td class="px-6 py-4">$999</td>
+            <td class="px-6 py-4">$999</td>
+            <td class="px-6 py-4">Edit</td>
           </tr>
         </tbody>
       </table>

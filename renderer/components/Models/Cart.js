@@ -124,7 +124,7 @@ const Cart = () => {
           </tr>
         </tbody>
       </table>
-      <div className="my-3 flex hidden">
+      <div className="my-3 flex ">
         <div class="relative w-full  pe-2">
           <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
@@ -172,7 +172,7 @@ const Cart = () => {
           />
         </div>
       </div>
-      <div className="my-3  ">
+      <div className="my-3 hidden ">
         <div class="relative w-full  pe-2 mb-2">
           <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg

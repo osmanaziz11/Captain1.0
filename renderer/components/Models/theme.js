@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ThemeModel = ({ title, children }) => {
+const ThemeModel = ({ title, children, handler }) => {
   return (
     <div class="fixed top-0 left-0 right-0 z-50 flex justify-center items-center bg-[#0c0c0cd5] w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0  h-full">
       <div class="relative w-[600px] max-h-full">
@@ -9,7 +9,7 @@ const ThemeModel = ({ title, children }) => {
             type="button"
             class="absolute top-3 right-2.5 text-gray-400 bg-transparent  hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center  dark:hover:text-white"
             data-modal-hide="authentication-modal"
-            onClick={undefined}
+            onClick={() => handler(false)}
           >
             <svg
               aria-hidden="true"
