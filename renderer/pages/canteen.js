@@ -4,14 +4,16 @@ import ItemModel from '../components/Models/ItemModel';
 import Category from '../components/Canteen/Category';
 import Search from '../components/Canteen/Search';
 import Item from '../components/Canteen/Item';
-import { resetCart } from '../redux/action';
+import { closeCart, resetCart } from '../redux/action';
 import { useEffect } from 'react';
 import React from 'react';
 import Cart from '../components/Models/Cart';
+import { useState } from 'react';
 
 const Canteen = () => {
   const category = ['All', 'Drinks', 'Fast Food', 'Shakes', 'Junk'];
   const cart = useSelector((state) => state.cartModel);
+  const [cartState, setCart] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,9 +22,13 @@ const Canteen = () => {
     };
   }, []);
 
+  function closeCartModel(value) {
+    dispatch(closeCart());
+  }
   return (
     <>
-      {/* {cart && <Cart />} */}
+      {cart && <Cart handler={closeCartModel} />}
+
       <div className="canteen p-10 w-full h-full overflow-scroll">
         {/* ==== Filters & Search ===== */}
         <div className="w-full h-[50px] flex">

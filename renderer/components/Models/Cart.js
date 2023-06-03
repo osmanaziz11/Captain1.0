@@ -1,11 +1,17 @@
 import React from 'react';
 import ThemeModel from './theme';
+import { useDispatch } from 'react-redux';
+import { closeCart } from '../../redux/action';
+import { useState } from 'react';
 
-const Cart = () => {
+const Cart = ({ handler }) => {
+  const [walk, setWalk] = useState(false);
+  const [table, setTable] = useState(false);
   return (
-    <ThemeModel title="Canteen Bill">
+    <ThemeModel title="Canteen Bill" handler={handler}>
       <table class="min-w-full  border-[#272727]   shadow-lg">
-        <thead class="bg-[#252525] hidden ">
+        {/* ==== Items ==== */}
+        <thead class="bg-[#252525]  ">
           <tr>
             <th
               scope="col"
@@ -29,7 +35,7 @@ const Cart = () => {
             </th>
           </tr>
         </thead>
-        <tbody class="bg-[#1b1b1b] hidden overflow-hidden">
+        <tbody class="bg-[#1b1b1b]  overflow-hidden">
           <tr className="border-b border-b-[#272727]">
             <td class="px-4 py-2 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-center">
               Lays
@@ -86,6 +92,9 @@ const Cart = () => {
             </td>
           </tr>
         </tbody>
+        {/* End  */}
+
+        {/* ==== Total ==== */}
         <thead class="bg-red-700">
           <tr>
             <th
@@ -123,8 +132,10 @@ const Cart = () => {
             </td>
           </tr>
         </tbody>
+        {/* End  */}
       </table>
-      <div className="my-3 flex ">
+      {/* ==== Walk In ==== */}
+      <div className={`my-3 flex ${!walk ? 'hidden' : ''} `}>
         <div class="relative w-full  pe-2">
           <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
@@ -172,7 +183,10 @@ const Cart = () => {
           />
         </div>
       </div>
-      <div className="my-3 hidden ">
+      {/* End  */}
+
+      {/* ==== Table ==== */}
+      <div className={`my-3  ${!table ? 'hidden' : ''} `}>
         <div class="relative w-full  pe-2 mb-2">
           <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
@@ -246,14 +260,22 @@ const Cart = () => {
           </div>
         </div>
       </div>
-      <div className="flex  w-full justify-center items-center my-2">
-        <div class="flex hidden items-center mr-4">
+      {/* End  */}
+
+      {/* ==== Radio Options ====  */}
+      <div
+        className={`flex ${
+          table || walk ? 'hidden' : ''
+        } w-full justify-center items-center my-2`}
+      >
+        <div class="flex  items-center mr-4">
           <input
             id="inline-radio"
             type="radio"
             value=""
             name="inline-radio-group"
             class="w-4 h-4  outline-none border-0"
+            onClick={() => setWalk(true)}
           />
           <label
             for="inline-radio"
@@ -262,12 +284,13 @@ const Cart = () => {
             Walk in
           </label>
         </div>
-        <div class="flex hidden items-center mr-4">
+        <div class="flex  items-center mr-4">
           <input
             id="inline-2-radio"
             type="radio"
             value=""
             name="inline-radio-group"
+            onClick={() => setTable(true)}
             class="w-4 h-4  outline-none text-purple-600 bg-zinc-900  dark:bg-zinc-900 dark:border-zinc-900"
           />
           <label
@@ -277,11 +300,23 @@ const Cart = () => {
             Table
           </label>
         </div>
-        <p className="text-red-600 font-medium">Back</p>
       </div>
+      {/* End  */}
+      <p
+        className={`text-red-600 text-center cursor-pointer ${
+          table || walk ? '' : 'hidden'
+        }  font-medium`}
+        onClick={() => {
+          setTable(false);
+          setWalk(false);
+        }}
+      >
+        Back
+      </p>
       <div className="w-full my-3 flex justify-center items-center">
         <button
           type="submit"
+          onClick={undefined}
           class="w-full text-white    outline-none  font-medium rounded text-sm px-5 py-2.5 text-center bg-[#22722E]"
         >
           Let's Pay
