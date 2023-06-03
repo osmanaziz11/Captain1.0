@@ -76,7 +76,7 @@ const GameOptions = () => {
       <div
         className={`opacity-${
           deactWindow.length > 0 ? '100' : '0'
-        } transition duration-1000`}
+        } transition duration-1000 mt-3`}
       >
         <button
           className="px-5 py-1 text-xs bg-red-800 rounded text-white shadow-md"

@@ -3,7 +3,7 @@ import FreeEffect from './FreeEffect';
 import React, { useState } from 'react';
 
 const Table = ({ name }) => {
-  const [gameState, setGameState] = useState(false);
+  const [gameState, setGameState] = useState(true);
   return (
     // ====== Table Container ======
     <div className="h-[260px] w-[500px]  rounded-2xl relative shadow-2xl shadow-black flex justify-center">

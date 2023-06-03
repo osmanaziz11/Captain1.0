@@ -27,19 +27,27 @@ function Vs() {
   );
 }
 function Individuals() {
-  const [add, setAdd] = useState([1]);
+  const [add, setAdd] = useState([1, 3, 4]);
   return (
     <>
       {add.length > 0 &&
         add.map((_, idx) => {
-          return <Vs />;
+          return (
+            <input
+              type="text"
+              name=""
+              id=""
+              placeholder="Player 1"
+              className="text-center   bg-transparent outline-none text-gray-400 placeholder-gray-400 "
+            />
+          );
         })}
-      <p
-        className="text-red-800 font-extrabold"
+      <div
+        className="h-[18px] my-1 w-[30px] text-sm flex justify-center items-center  border-dotted border-2 border-red-800 text-white font-medium"
         onClick={() => setAdd((arr) => [...arr, 1])}
       >
-        Add
-      </p>
+        +
+      </div>
     </>
   );
 }
@@ -61,35 +69,54 @@ function Teams() {
   );
 }
 const Century = () => {
-  const [option, setOption] = useState(false);
+  const [option1, setOption1] = useState(false);
+  const [option2, setOption2] = useState(false);
 
   return (
     <div className="w-full h-full bg-transparent mb-4  flex flex-col justify-center items-center">
-      {!option ? (
+      {!option1 && !option2 ? (
         <>
           <p
             className="mx-4 text-white font-medium"
-            onClick={() => setOption(true)}
+            onClick={() => setOption1(true)}
           >
             Individuals
           </p>
           <p
             className="mx-4 text-white font-medium"
-            onClick={() => setOption(true)}
+            onClick={() => setOption2(true)}
           >
             Teams
           </p>
         </>
-      ) : (
-        <div>
+      ) : option1 ? (
+        <div className="flex flex-col justify-center items-center">
           <p
             className="text-center text-red-600 font-medium"
-            onClick={() => setOption(false)}
+            onClick={() => {
+              setOption1(false);
+              setOption2(false);
+            }}
           >
             Back
           </p>
           <Individuals />
         </div>
+      ) : option2 ? (
+        <div className="flex flex-col justify-center items-center">
+          <p
+            className="text-center text-red-600 font-medium"
+            onClick={() => {
+              setOption1(false);
+              setOption2(false);
+            }}
+          >
+            Back
+          </p>
+          <Teams />
+        </div>
+      ) : (
+        ''
       )}
     </div>
   );

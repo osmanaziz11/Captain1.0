@@ -4,7 +4,7 @@ const Double = () => {
   const [vs, setVS] = useState(false);
   function Vs() {
     return (
-      <div className=" flex justify-center items-center mb-2">
+      <div className=" flex justify-center items-center mb-">
         <input
           type="text"
           name=""
@@ -29,8 +29,8 @@ const Double = () => {
     );
   }
   return (
-    <div className="w-full h-full bg-transparent mb-4  flex flex-col justify-center items-center">
-      <h1 className="text-white font-medium mb-2">Double 6 Ball</h1>
+    <div className="w-full h-full bg-transparent mb-1 pt-2  flex flex-col justify-center items-center">
+      <h1 className="text-white font-medium ">Double 6 Ball</h1>
       <Vs />
       <Vs />
       {vs ? (
@@ -39,14 +39,14 @@ const Double = () => {
         </div>
       ) : (
         <div
-          className="h-[10px] text-red-800 font-medium"
+          className="h-[18px] my-1 w-[30px] text-sm flex justify-center items-center  border-dotted border-2 border-red-800 text-white font-medium"
           onClick={() => setVS(true)}
         >
-          <p>Add</p>
+          +
         </div>
       )}
       <div>
-        <p className="text-center text-green-700 font-medium text-sm">
+        <p className="text-center text-green-700 font-medium text-sm mb-3">
           Let's Play
         </p>
       </div>

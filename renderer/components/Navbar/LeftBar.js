@@ -27,6 +27,10 @@ const LeftBar = () => {
       slug: '/canteen',
     },
     {
+      icon: 'Expense',
+      slug: '/expense',
+    },
+    {
       icon: 'Setting',
       slug: '/setting',
     },
@@ -38,7 +42,10 @@ const LeftBar = () => {
         {menu.map((item, idx) => {
           return (
             <Link href={item.slug} key={idx}>
-              <li className="my-5 p-1 bg-[#272727] rounded cursor-pointer ">
+              <li className="my-5 p-1 bg-[#272727] rounded cursor-pointer relative">
+                {item.icon === 'Members' && (
+                  <p className="absolute top-0 left-0 text-[8px] bg-red-600 w-[10px] flex justify-center items-center h-[10px] rounded-full text-white text-center"></p>
+                )}
                 <NavIcons
                   type={item.icon}
                   color={router.pathname === item.slug ? '#96A826' : '#707070'}
