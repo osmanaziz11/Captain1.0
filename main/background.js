@@ -1,7 +1,7 @@
 import { createWindow } from './helpers';
 import serve from 'electron-serve';
 import { app } from 'electron';
-
+import { initDB } from './db';
 const isProd = process.env.NODE_ENV === 'production';
 
 if (isProd) {
@@ -12,7 +12,7 @@ if (isProd) {
 
 (async () => {
   await app.whenReady();
-
+  initDB();
   const mainWindow = createWindow('main', {
     width: 700,
     height: 500,
