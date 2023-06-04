@@ -5,11 +5,22 @@ import React from 'react';
 import ItemModel from '../components/Models/ItemModel';
 import CategoryModel from '../components/Models/CategoryModel';
 import { useState } from 'react';
+import { useEffect } from 'react';
+import { ipcRenderer } from 'electron';
 
 const Manage = () => {
-  const category = ['All', 'Drinks', 'Fast Food', 'Shakes', 'Junk'];
+  const [category, setCategory] = useState([{ id: 0, name: 'All' }]);
   const [categ, setCateg] = useState(false);
   const [item, setItem] = useState(false);
+
+  ipcRenderer.once('get_categories', (event, data) => {
+    setCategory((arr) => [...arr, ...data]);
+  });
+  useEffect(() => {
+    ipcRenderer.send('getAll', 'categories');
+    return () => {};
+  }, []);
+
   return (
     <div className="canteen p-10 w-full h-full overflow-scroll">
       {categ && <CategoryModel handler={setCateg} />}
@@ -20,7 +31,7 @@ const Manage = () => {
         <div className="filters w-3/6">
           <ul className="flex w-full items-center">
             {category.map((item, idx) => {
-              return <Category name={item} />;
+              return <Category key={item.id} data={item} />;
             })}
           </ul>
         </div>

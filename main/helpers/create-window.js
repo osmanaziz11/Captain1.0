@@ -62,7 +62,7 @@ export default function createWindow(windowName, options) {
   };
 
   state = ensureVisibleOnSomeDisplay(restore());
-  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+
   win = new BrowserWindow({
     ...state,
     ...options,
@@ -72,12 +72,10 @@ export default function createWindow(windowName, options) {
       ...options.webPreferences,
     },
 
-    minWidth: width,
-    minHeight: height,
-
     roundedCorners: false,
   });
 
+  win.center();
   win.removeMenu();
   win.on('close', saveState);
 

@@ -4,12 +4,26 @@ import version from '../public/assets/1.0.svg';
 import Logo from '../public/assets/logo.svg';
 import LoadingBar from 'react-top-loading-bar';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { ipcRenderer } from 'electron';
 
-const Splash = () => {
-  const [progress, setProgress] = useState(30);
+const SplashScreen = () => {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const handleLoadingState = (event, result) => {
+      setProgress(result);
+    };
+
+    ipcRenderer.on('isLoading', handleLoadingState);
+
+    return () => {
+      ipcRenderer.removeListener('isLoading', handleLoadingState);
+    };
+  }, []);
+
   return (
-    <div className="w-full h-screen bg-[#141414] flex flex-col justify-center items-center relative">
+    <div className="w-full h-screen bg-[#141414] flex flex-col justify-center items-center  z-50">
       <div className="flex items-end  w-full justify-center ps-7">
         <Image src={Captain} className="ms-10" width={250} alt="title"></Image>
         <div className="mb-4 mx-3">
@@ -26,11 +40,11 @@ const Splash = () => {
           <Image src={Trademark} className="" alt="logo" />
         </div>
       </div>
-      <div className="absolute bottom-0 h-[2px] w-full">
+      <div className="absolute bottom-0 left- h-[2px] w-full">
         <LoadingBar
           color="#EBFF03"
           progress={progress}
-          onLoaderFinished={() => setProgress(0)}
+          onLoaderFinished={() => setProgress(100)}
           height={2}
           shadow={false}
           containerClassName="rounded-lg"
@@ -44,4 +58,4 @@ const Splash = () => {
   );
 };
 
-export default Splash;
+export default SplashScreen;

@@ -1,11 +1,12 @@
 const Schema = [
   {
-    tableName: 'users',
-    columns: 'id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT',
+    tableName: 'categories',
+    columns: 'name TEXT PRIMARY KEY, id INTEGER',
   },
   {
-    tableName: 'products',
-    columns: 'id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price REAL',
+    tableName: 'items',
+    columns:
+      'id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT, name TEXT, price REAL, thumbnail TEXT, FOREIGN KEY (category) REFERENCES categories(name)',
   },
   {
     tableName: 'orders',

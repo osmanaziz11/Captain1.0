@@ -22,11 +22,49 @@ export async function initDB() {
 
       Promise.all(createTablePromises)
         .then(() => {
-          resolve();
+          setTimeout(() => {
+            resolve();
+          }, 3000);
         })
         .catch((err) => {
           reject(err);
         });
+    });
+  });
+}
+
+export async function insertRecord(data) {
+  return new Promise((resolve, reject) => {
+    const { tableName, record } = data;
+    const columns = Object.keys(record).join(', ');
+    const values = Object.values(record)
+      .map((value) => `'${value}'`)
+      .join(', ');
+    const insertSQL = `INSERT INTO ${tableName} (${columns}) VALUES (${values})`;
+
+    db.run(insertSQL, function (err) {
+      if (err) {
+        reject(err);
+      } else {
+        console.log(`Record inserted successfully into ${tableName}`);
+        resolve(this.lastID);
+      }
+    });
+  });
+}
+
+export async function fetchRecords(tableName) {
+  return new Promise((resolve, reject) => {
+    const selectSQL = `SELECT * FROM ${tableName}`;
+
+    db.all(selectSQL, function (err, rows) {
+      if (err) {
+        console.error(`Error fetching records from ${tableName}:`, err);
+        reject(err);
+      } else {
+        console.log(`Fetched records successfully from ${tableName}`);
+        resolve(rows);
+      }
     });
   });
 }

@@ -17,6 +17,7 @@
     "electron-serve": "^1.1.0",
     "electron-store": "^8.1.0",
     "postcss": "^8.4.23",
+    "react-hook-form": "^7.44.3",
     "react-redux": "^8.0.5",
     "react-top-loading-bar": "^2.3.1",
     "redux": "^4.2.1",
