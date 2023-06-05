@@ -3,7 +3,7 @@ import ThemeModel from './theme';
 import { useForm } from 'react-hook-form';
 import { ipcRenderer } from 'electron';
 
-const CategoryModel = ({ handler }) => {
+const CategoryModel = ({ handler, render }) => {
   const {
     register,
     handleSubmit,
@@ -19,15 +19,19 @@ const CategoryModel = ({ handler }) => {
     });
   };
 
+  function addSuccess() {
+    handler(false);
+    render(Math.round(Math.random() * 100));
+  }
   ipcRenderer.once('insert_categories', (event, data) => {
     data.status == 1
-      ? handler(false)
+      ? addSuccess()
       : setError('category', {
           type: 'manual',
           message: data.message,
         });
   });
-  async function submit(data) {
+  function submit(data) {
     try {
       ipcRenderer.send('insert', {
         tableName: 'categories',

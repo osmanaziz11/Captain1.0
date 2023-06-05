@@ -25,3 +25,8 @@ export function closeCart() {
     type: 'CLOSE_CART',
   };
 }
+export function renderManage() {
+  return {
+    type: 'RENDER_MANAGE',
+  };
+}

@@ -68,3 +68,20 @@ export async function fetchRecords(tableName) {
     });
   });
 }
+
+export async function deleteRecord(data) {
+  return new Promise((resolve, reject) => {
+    const { tableName, col, condition } = data;
+    const deleteSQL = `DELETE FROM ${tableName} WHERE ${col} = "${condition}"`;
+    console.log(deleteSQL);
+
+    db.run(deleteSQL, function (err) {
+      if (err) {
+        reject(err);
+      } else {
+        console.log(`Record deleted successfully from ${tableName}`);
+        resolve();
+      }
+    });
+  });
+}

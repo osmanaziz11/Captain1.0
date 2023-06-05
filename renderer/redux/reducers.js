@@ -26,10 +26,20 @@ const cart = (state = false, action) => {
       return state;
   }
 };
+
+const rmange = (state = false, action) => {
+  switch (action.type) {
+    case 'RENDER_MANAGE':
+      return !state;
+    default:
+      return state;
+  }
+};
 // ==== Root Reducers =====
 const rootReducer = combineReducers({
   cart: cartManuplation,
   cartModel: cart,
+  renderManage: rmange,
 });
 
 export default rootReducer;
