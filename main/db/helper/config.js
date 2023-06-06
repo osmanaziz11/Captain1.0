@@ -3,7 +3,7 @@ import sqlite3 from 'sqlite3';
 import path from 'path';
 
 const appDirectory = app.getPath('userData');
-const dbPath = path.join(appDirectory, '.db');
+const dbPath = path.join(appDirectory, 'testing4.db');
 
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {

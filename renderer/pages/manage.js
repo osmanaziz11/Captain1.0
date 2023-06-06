@@ -6,34 +6,42 @@ import ItemModel from '../components/Models/ItemModel';
 import CategoryModel from '../components/Models/CategoryModel';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { ipcRenderer } from 'electron';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCategories, getItems } from '../redux/action';
 
 const Manage = () => {
-  const [category, setCategory] = useState([]);
   const [categ, setCateg] = useState(false);
   const [item, setItem] = useState(false);
   const [render, setRender] = useState(0);
+  const categories = useSelector((state) => state.getCategories);
+  const items = useSelector((state) => state.getItems);
+  const dispatch = useDispatch();
 
-  ipcRenderer.once('get_categories', (event, data) => {
-    setCategory((arr) => [...data]);
-  });
   useEffect(() => {
-    ipcRenderer.send('getAll', 'categories');
-    return () => {};
+    dispatch(getCategories());
+    dispatch(getItems());
   }, [render]);
 
   return (
     <div className="canteen p-10 w-full h-full overflow-scroll">
       {categ && <CategoryModel handler={setCateg} render={setRender} />}
-      {item && <ItemModel handler={setItem} />}
+      {item && <ItemModel handler={setItem} render={setRender} opts="0" />}
 
       {/* ==== Filters & Search ===== */}
       <div className="w-full h-[50px] flex">
         <div className="filters w-[60%] overflow-hidden">
           <ul className="flex w-full items-center">
-            {category.map((item, idx) => {
-              return <Category key={item.id} data={item} render={setRender} />;
-            })}
+            {categories.length > 1 && (
+              <li className=" relative h-[40px] transition mx-2 border-b-2 rounded text-sm flex justify-center border-b-[#1b1b1b] bg-[#1b1b1b] shadow-lg text-white py-2 px-4 cursor-pointer">
+                All
+              </li>
+            )}
+            {categories.length > 0 &&
+              categories.map((item, idx) => {
+                return (
+                  <Category key={item.id} data={item} render={setRender} />
+                );
+              })}
           </ul>
         </div>
         <div className="search w-[40%] h-[40px] flex">
@@ -58,7 +66,7 @@ const Manage = () => {
 
       {/* ==== Canteen items Detail Window ===== */}
       <div className="w-full px-0 flex flex-wrap mt-5">
-        <ItemsTable />
+        <ItemsTable data={items} setRender={setRender} />
       </div>
       {/* ==== End ===== */}
     </div>

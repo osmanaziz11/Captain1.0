@@ -21,17 +21,17 @@ const Item = ({ data }) => {
     >
       <div className={`w-[80%] h-[65%]`}>
         <img
-          src="/assets/item.png"
+          src={`/assets/items/${data.thumbnail}`}
           className="w-full h-full object-contain hover:scale-110 hover:rotate-2 transition-all"
           alt=""
         />
       </div>
       <div className="w-full ">
-        <p className="text-center text-white">{data.title}</p>
-        <p className="text-center text-white">{data.price}</p>
+        <p className="text-center text-white">{data.name}</p>
+        <p className="text-center text-white">{data.salePrice}</p>
       </div>
       {/* ===== Out of stock effect ==== 1a1919da */}
-      {data.qty === 0 && (
+      {Math.abs(data.quantity - data.sold) === 0 && (
         <div
           className="w-full h-full absolute top-0 bg-[#1a1919da] cursor-not-allowed z-40"
           onClick={() => undefined}

@@ -38,8 +38,9 @@ export async function insertRecord(data) {
     const { tableName, record } = data;
     const columns = Object.keys(record).join(', ');
     const values = Object.values(record)
-      .map((value) => `'${value}'`)
+      .map((value) => (typeof value === 'string' ? `'${value}'` : value))
       .join(', ');
+
     const insertSQL = `INSERT INTO ${tableName} (${columns}) VALUES (${values})`;
 
     db.run(insertSQL, function (err) {

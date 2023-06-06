@@ -1,3 +1,5 @@
+import { ipcRenderer } from 'electron';
+
 export function addToCart(item) {
   return {
     type: 'ADD_TO_CART',
@@ -25,8 +27,20 @@ export function closeCart() {
     type: 'CLOSE_CART',
   };
 }
-export function renderManage() {
-  return {
-    type: 'RENDER_MANAGE',
+
+export const getCategories = () => {
+  return async (dispatch) => {
+    ipcRenderer.once('get_categories', (event, data) => {
+      dispatch({ type: 'ALL_CATEGORIES', payload: data });
+    });
+    ipcRenderer.send('getAll', 'categories');
   };
-}
+};
+export const getItems = () => {
+  return async (dispatch) => {
+    ipcRenderer.once('get_items', (event, data) => {
+      dispatch({ type: 'ALL_ITEMS', payload: data });
+    });
+    ipcRenderer.send('getAll', 'items');
+  };
+};

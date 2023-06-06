@@ -14,6 +14,11 @@ const DelCategory = ({ handler, data, render }) => {
       col: 'name',
       condition: data.name,
     });
+    ipcRenderer.send('delete', {
+      tableName: 'items',
+      col: 'category',
+      condition: data.name,
+    });
   }
   return (
     <ThemeModel title="Delete Category" handler={handler}>

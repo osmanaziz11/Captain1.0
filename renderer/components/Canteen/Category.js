@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import DelCategory from '../Models/DelCategory';
 
-const Category = ({ data, render }) => {
+const Category = ({ data, render, opts }) => {
   const [del, setDel] = useState(false);
   const [categDel, setCategDel] = useState(false);
   return (
@@ -17,7 +17,7 @@ const Category = ({ data, render }) => {
       >
         {data.name}
         <span
-          className={`absolute -top-0 -right-1 ${
+          className={`absolute ${opts == 1 && 'hidden'} -top-0 -right-1 ${
             !del ? 'scale-0' : 'scale-100'
           } transition`}
           onClick={() => setCategDel(true)}
