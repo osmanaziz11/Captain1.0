@@ -89,10 +89,6 @@ const Manage = () => {
         <ItemsTable data={filters} setRender={setRender} />
       </div>
       {/* ==== End ===== */}
-
-      {/* ==== Pagination ==== */}
-      {filters.length > 7 && <Pagination />}
-      {/* ==== End ====  */}
     </div>
   );
 };

@@ -1,18 +1,36 @@
-import React, { useState } from 'react';
-import ItemModel from '../Models/ItemModel';
+import React, { useEffect, useState } from 'react';
+import Pagination from '../Pagination';
 
-const ItemsTable = ({ data, setRender }) => {
-  const [item, setItem] = useState(false);
+const ItemsTable = ({ data }) => {
+  const [pgeFilters, setPgeFilters] = useState([]);
+  const [pgeIndex, setPgeIndex] = useState(0);
+
+  const applyPagination = () => {
+    const tempArr = [...data];
+    const pages = Math.ceil(tempArr.length / 7);
+    const pgeArr = [];
+    for (var i = 0; i < pages; i++) {
+      const end = tempArr.length > 7 ? 7 : tempArr.length;
+      pgeArr.push(tempArr.slice(0, end));
+      tempArr.splice(0, end);
+    }
+    return pgeArr;
+  };
+
+  const opts = {
+    pages: pgeFilters,
+    currIndex: pgeIndex,
+    setPgeIndex: setPgeIndex,
+  };
+  useEffect(() => {
+    const arr = applyPagination();
+    setPgeFilters([...arr]);
+
+    return () => {};
+  }, []);
+
   return (
     <>
-      {item && (
-        <ItemModel
-          handler={setItem}
-          render={setRender}
-          opts="1"
-          data={data[0]}
-        />
-      )}
       <div class="relative overflow-x-auto shadow-md rounded  w-full">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
@@ -44,8 +62,8 @@ const ItemsTable = ({ data, setRender }) => {
             </tr>
           </thead>
           <tbody>
-            {data.length > 0 ? (
-              data.map((item, idx) => {
+            {pgeFilters.length > 0 ? (
+              pgeFilters[pgeIndex].map((item, idx) => {
                 return (
                   idx < 7 && (
                     <tr class="border-b border-gray-200 dark:border-gray-700">
@@ -83,6 +101,9 @@ const ItemsTable = ({ data, setRender }) => {
           </tbody>
         </table>
       </div>
+      {/* ==== Pagination ==== */}
+      {data.length > 7 && <Pagination {...opts} />}
+      {/* ==== End ====  */}
     </>
   );
 };

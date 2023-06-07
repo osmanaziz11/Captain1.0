@@ -1,10 +1,15 @@
 import React from 'react';
 
-const Pagination = () => {
+const Pagination = ({ pages, currIndex, setPgeIndex }) => {
   return (
-    <div class="flex items-center justify-between mt-6">
+    <div class="flex items-center justify-between mt-6 w-full">
       <button
-        className={`hover:bg-zinc-800 relative h-[40px] transition mx-2 border-b-2 rounded text-sm flex justify-center border-b-[#1b1b1b] bg-[#1b1b1b] shadow-lg text-white py-2 px-4 cursor-pointer items-center`}
+        className={`${
+          currIndex === 0
+            ? 'bg-[#1a1919e8] cursor-default opacity-50'
+            : 'bg-[#1b1b1b] hover:bg-zinc-800'
+        }  relative h-[40px] transition mx-2 border-2 rounded text-sm flex justify-center border-[#1b1b1b]  shadow-lg text-white py-2 px-4  items-center`}
+        onClick={currIndex === 0 ? undefined : () => setPgeIndex(currIndex - 1)}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -25,52 +30,32 @@ const Pagination = () => {
       </button>
 
       <div class="items-center hidden md:flex gap-x-3">
-        <a
-          href="#"
-          class="px-2 py-1 text-sm text-white rounded-md bg-[#1b1b1b] "
-        >
-          1
-        </a>
-        <a
-          href="#"
-          class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-        >
-          2
-        </a>
-        <a
-          href="#"
-          class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-        >
-          3
-        </a>
-        <a
-          href="#"
-          class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-        >
-          ...
-        </a>
-        <a
-          href="#"
-          class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-        >
-          12
-        </a>
-        <a
-          href="#"
-          class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-        >
-          13
-        </a>
-        <a
-          href="#"
-          class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100"
-        >
-          14
-        </a>
+        {pages.map((page, idx) => {
+          return (
+            <button
+              key={idx}
+              className={`px-2 py-1 text-sm text-white rounded-md  ${
+                currIndex + 1 == idx + 1 && 'bg-[#1b1b1b]'
+              }`}
+              onClick={() => setPgeIndex(idx)}
+            >
+              {idx + 1}
+            </button>
+          );
+        })}
       </div>
 
       <button
-        className={`hover:bg-zinc-800 relative h-[40px] transition mx-2 border-b-2 rounded text-sm flex justify-center border-b-[#1b1b1b] bg-[#1b1b1b] shadow-lg text-white py-2 px-4 cursor-pointer items-center`}
+        className={`${
+          currIndex + 1 === pages.length
+            ? 'bg-[#1a1919e8] cursor-default opacity-50'
+            : 'bg-[#1b1b1b] hover:bg-zinc-800'
+        }  relative h-[40px] transition mx-2 border-2 rounded text-sm flex justify-center border-[#1b1b1b]  shadow-lg text-white py-2 px-4  items-center`}
+        onClick={
+          currIndex + 1 === pages.length
+            ? undefined
+            : () => setPgeIndex(currIndex + 1)
+        }
       >
         <span>Next</span>
 
