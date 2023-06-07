@@ -165,10 +165,14 @@ const ItemModel = ({ handler, render }) => {
       </div>
       <button
         type="submit"
-        class="w-full text-white mt-5  outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-[#22722E]"
-        onClick={handleSubmit(submit)}
+        class={`w-full text-white mt-5  outline-none  font-medium rounded text-sm px-5 py-2.5 text-center  ${
+          category.length == 0
+            ? 'cursor-not-allowed bg-[#d43030]'
+            : 'bg-[#22722E]'
+        }`}
+        onClick={category.length > 0 ? handleSubmit(submit) : undefined}
       >
-        Add
+        {category.length == 0 ? 'Add new category first' : 'Add new item'}
       </button>
     </ThemeModel>
   );

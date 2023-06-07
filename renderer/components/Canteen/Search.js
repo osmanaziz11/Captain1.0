@@ -1,6 +1,23 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
-const Search = () => {
+const Search = ({ filter, applyFilters }) => {
+  const items = useSelector((state) => state.getItems);
+
+  const filterItems = (item, event) => {
+    if (item.name.toLowerCase().startsWith(event.target.value.toLowerCase())) {
+      if (filter === 'All') {
+        return item;
+      } else {
+        return item.category === filter && item;
+      }
+    }
+  };
+
+  const handleSearchInput = (event) => {
+    const filterArr = items.filter((item) => filterItems(item, event));
+    applyFilters(filterArr);
+  };
   return (
     <div class="relative w-full shadow-lg">
       <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -24,6 +41,7 @@ const Search = () => {
         class="outline-none border-b-[#272727] bg-[#1b1b1b] text-gray-400 text-sm rounded-lg block w-full pl-10 p-2.5   placeholder-gray-400 "
         placeholder="Search food here"
         required
+        onChange={handleSearchInput}
       />
     </div>
   );

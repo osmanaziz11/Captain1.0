@@ -1,19 +1,38 @@
 import React from 'react';
 import { useState } from 'react';
 import DelCategory from '../Models/DelCategory';
+import { useSelector } from 'react-redux';
 
-const Category = ({ data, render, opts }) => {
+const Category = ({
+  data,
+  render,
+  opts,
+  filters,
+  key,
+  selectedCatg,
+  setSelectedCatg,
+}) => {
   const [del, setDel] = useState(false);
   const [categDel, setCategDel] = useState(false);
+  const items = useSelector((state) => state.getItems);
+
+  const filterItems = () => {
+    setSelectedCatg(data.name);
+    const filterArr = items.filter((cat) => cat.category === data.name);
+    filters(filterArr);
+  };
   return (
     <>
       {categDel && (
         <DelCategory handler={setCategDel} data={data} render={render} />
       )}
       <li
-        className=" relative h-[40px] transition mx-2 border-b-2 rounded text-sm flex justify-center border-b-[#1b1b1b] bg-[#1b1b1b] shadow-lg text-white py-2 px-4 cursor-pointer"
+        className={`hover:bg-zinc-800 relative h-[40px] transition mx-2 border-b-2 rounded text-sm flex justify-center border-b-[#1b1b1b] ${
+          selectedCatg === data.name ? 'bg-zinc-800' : 'bg-[#1b1b1b]'
+        } shadow-lg text-white py-2 px-4 cursor-pointer`}
         onMouseOver={() => setDel(true)}
         onMouseOut={() => setDel(false)}
+        onClick={filterItems}
       >
         {data.name}
         <span

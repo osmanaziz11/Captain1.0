@@ -8,13 +8,18 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories, getItems } from '../redux/action';
+import Pagination from '../components/Pagination';
 
 const Manage = () => {
+  const categories = useSelector((state) => state.getCategories);
+  const items = useSelector((state) => state.getItems);
+
   const [categ, setCateg] = useState(false);
   const [item, setItem] = useState(false);
   const [render, setRender] = useState(0);
-  const categories = useSelector((state) => state.getCategories);
-  const items = useSelector((state) => state.getItems);
+  const [filters, setFilters] = useState([...items]);
+  const [selectedCatg, setSelectedCatg] = useState('All');
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,20 +37,35 @@ const Manage = () => {
         <div className="filters w-[60%] overflow-hidden">
           <ul className="flex w-full items-center">
             {categories.length > 1 && (
-              <li className=" relative h-[40px] transition mx-2 border-b-2 rounded text-sm flex justify-center border-b-[#1b1b1b] bg-[#1b1b1b] shadow-lg text-white py-2 px-4 cursor-pointer">
+              <li
+                className={`${
+                  selectedCatg === 'All' && 'bg-zinc-800'
+                } relative h-[40px] transition mx-2 border-b-2 rounded text-sm flex justify-center  border-[#1b1b1b] shadow-lg text-white py-2 px-4 cursor-pointer`}
+                onClick={() => {
+                  setSelectedCatg('All');
+                  setFilters([...items]);
+                }}
+              >
                 All
               </li>
             )}
             {categories.length > 0 &&
               categories.map((item, idx) => {
                 return (
-                  <Category key={item.id} data={item} render={setRender} />
+                  <Category
+                    key={idx}
+                    data={item}
+                    render={setRender}
+                    filters={setFilters}
+                    selectedCatg={selectedCatg}
+                    setSelectedCatg={setSelectedCatg}
+                  />
                 );
               })}
           </ul>
         </div>
         <div className="search w-[40%] h-[40px] flex">
-          <Search />
+          <Search filter={selectedCatg} applyFilters={setFilters} />
           <div
             class="mx-3 relative px-3  shadow-lg border-b-[#272727] bg-[#1b1b1b] rounded flex justify-center items-center h-[40px] cursor-pointer "
             onClick={() => setCateg(true)}
@@ -66,9 +86,13 @@ const Manage = () => {
 
       {/* ==== Canteen items Detail Window ===== */}
       <div className="w-full px-0 flex flex-wrap mt-5">
-        <ItemsTable data={items} setRender={setRender} />
+        <ItemsTable data={filters} setRender={setRender} />
       </div>
       {/* ==== End ===== */}
+
+      {/* ==== Pagination ==== */}
+      {filters.length > 7 && <Pagination />}
+      {/* ==== End ====  */}
     </div>
   );
 };

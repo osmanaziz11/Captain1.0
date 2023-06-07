@@ -13,7 +13,7 @@ const ItemsTable = ({ data, setRender }) => {
           data={data[0]}
         />
       )}
-      <div class="relative overflow-x-auto shadow-md sm:rounded-lg  w-full">
+      <div class="relative overflow-x-auto shadow-md rounded  w-full">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
             <tr>
@@ -47,30 +47,32 @@ const ItemsTable = ({ data, setRender }) => {
             {data.length > 0 ? (
               data.map((item, idx) => {
                 return (
-                  <tr class="border-b border-gray-200 dark:border-gray-700">
-                    <th
-                      scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
-                    >
-                      {item.name}
-                    </th>
-                    <td class="px-6 py-4">{item.quantity}</td>
-                    <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-                      {item.category}
-                    </td>
-                    <td class="px-6 py-4">{item.purchasePrice}</td>
-                    <td class="px-6 py-4">{item.salePrice}</td>
-                    <td class="px-6 py-4">
-                      {Math.abs(item.quantity - item.sold)}
-                    </td>
-                    <td class="px-6 py-4">{item.sold}</td>
-                    <td
-                      class="px-6 py-4 cursor-pointer text-red-600 font-medium"
-                      onClick={() => setItem(true)}
-                    >
-                      Edit
-                    </td>
-                  </tr>
+                  idx < 7 && (
+                    <tr class="border-b border-gray-200 dark:border-gray-700">
+                      <th
+                        scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
+                      >
+                        {item.name}
+                      </th>
+                      <td class="px-6 py-4">{item.quantity}</td>
+                      <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+                        {item.category}
+                      </td>
+                      <td class="px-6 py-4">{item.purchasePrice}</td>
+                      <td class="px-6 py-4">{item.salePrice}</td>
+                      <td class="px-6 py-4">
+                        {Math.abs(item.quantity - item.sold)}
+                      </td>
+                      <td class="px-6 py-4">{item.sold}</td>
+                      <td
+                        class="px-6 py-4 cursor-pointer text-red-600 font-medium"
+                        onClick={() => setItem(true)}
+                      >
+                        Edit
+                      </td>
+                    </tr>
+                  )
                 );
               })
             ) : (
