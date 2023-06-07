@@ -8,7 +8,7 @@ const Category = ({
   render,
   opts,
   filters,
-  key,
+
   selectedCatg,
   setSelectedCatg,
 }) => {

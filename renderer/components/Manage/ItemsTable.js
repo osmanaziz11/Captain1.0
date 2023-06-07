@@ -25,82 +25,135 @@ const ItemsTable = ({ data }) => {
   useEffect(() => {
     const arr = applyPagination();
     setPgeFilters([...arr]);
-
-    return () => {};
-  }, []);
+    console.log(`data`);
+  }, [data]);
 
   return (
     <>
-      <div class="relative overflow-x-auto shadow-md rounded  w-full">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
-            <tr>
-              <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                Item name
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Quantity
-              </th>
-              <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                Category
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Purchase Price
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Sale Price
-              </th>
-              <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                Remaining
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Sold
-              </th>
-              <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {pgeFilters.length > 0 ? (
-              pgeFilters[pgeIndex].map((item, idx) => {
-                return (
-                  idx < 7 && (
-                    <tr class="border-b border-gray-200 dark:border-gray-700">
+      <section class="w-full  mx-auto">
+        <div class="flex flex-col">
+          <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+              <div class="overflow-hidden  bg-[#1b1b1b] md:rounded-t-lg">
+                <table class="min-w-full  border-[#272727]   shadow-lg">
+                  <thead class="bg-[#252525]">
+                    <tr>
                       <th
-                        scope="row"
-                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
+                        scope="col"
+                        class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                       >
-                        {item.name}
+                        <div class="flex items-center gap-x-3">
+                          <button class="flex items-center gap-x-2 justify-center">
+                            Item name
+                          </button>
+                        </div>
                       </th>
-                      <td class="px-6 py-4">{item.quantity}</td>
-                      <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-                        {item.category}
-                      </td>
-                      <td class="px-6 py-4">{item.purchasePrice}</td>
-                      <td class="px-6 py-4">{item.salePrice}</td>
-                      <td class="px-6 py-4">
-                        {Math.abs(item.quantity - item.sold)}
-                      </td>
-                      <td class="px-6 py-4">{item.sold}</td>
-                      <td
-                        class="px-6 py-4 cursor-pointer text-red-600 font-medium"
-                        onClick={() => setItem(true)}
+
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400"
                       >
-                        Edit
-                      </td>
+                        Quantity
+                      </th>
+
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400"
+                      >
+                        Category
+                      </th>
+
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400"
+                      >
+                        Purchase Price
+                      </th>
+
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400"
+                      >
+                        Sale Price
+                      </th>
+
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400 "
+                      >
+                        Remaining
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400 "
+                      >
+                        Sold
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400 "
+                      >
+                        Action
+                      </th>
                     </tr>
-                  )
-                );
-              })
-            ) : (
-              <p className="py-4 px-4 font-medium text-base">
-                You don't have any inventory
-              </p>
-            )}
-          </tbody>
-        </table>
-      </div>
+                  </thead>
+                  <tbody class="bg-[#1b1b1b] ">
+                    {pgeFilters.length > 0 ? (
+                      pgeFilters[pgeIndex].map((item, idx) => {
+                        return (
+                          idx < 7 && (
+                            <tr className="border-b border-b-[#272727]">
+                              <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap ">
+                                <div class="inline-flex items-center gap-x-3 justify-center">
+                                  {item.name}
+                                </div>
+                              </td>
+
+                              <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-center">
+                                {item.quantity}
+                              </td>
+                              <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-center">
+                                {item.category}
+                              </td>
+                              <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-center">
+                                {item.purchasePrice}
+                              </td>
+                              <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-center">
+                                {item.salePrice}
+                              </td>
+                              <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-center">
+                                {Math.abs(item.quantity - item.sold)}
+                              </td>
+                              <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-center">
+                                {item.sold}
+                              </td>
+                              <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                <div
+                                  class="flex items-center gap-x-6 justify-center
+                      "
+                                >
+                                  <button class="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
+                                    Delete
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          )
+                        );
+                      })
+                    ) : (
+                      <p className="py-4 px-4 font-medium text-white">
+                        No items available.
+                      </p>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ==== Pagination ==== */}
       {data.length > 7 && <Pagination {...opts} />}
       {/* ==== End ====  */}
