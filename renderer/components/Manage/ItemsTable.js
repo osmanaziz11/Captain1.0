@@ -25,7 +25,6 @@ const ItemsTable = ({ data }) => {
   useEffect(() => {
     const arr = applyPagination();
     setPgeFilters([...arr]);
-    console.log(`data`);
   }, [data]);
 
   return (

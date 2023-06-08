@@ -44,3 +44,11 @@ export const getItems = () => {
     ipcRenderer.send('getAll', 'items');
   };
 };
+export const getMembers = () => {
+  return async (dispatch) => {
+    ipcRenderer.once('get_members', (event, data) => {
+      dispatch({ type: 'ALL_MEMBERS', payload: data });
+    });
+    ipcRenderer.send('getAll', 'members');
+  };
+};

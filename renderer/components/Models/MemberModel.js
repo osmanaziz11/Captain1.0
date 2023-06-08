@@ -1,56 +1,79 @@
 import React from 'react';
-import { CNICField, NameField, PhoneField } from './inputs';
+import { addMember } from '../inputValidations/addMember';
+import ThemeModel from './theme';
+import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import { ipcRenderer } from 'electron';
 
-const MemberModel = (props) => {
+const MemberModel = ({ handler, render }) => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    setError,
+    formState: { errors },
+  } = useForm();
+
+  const validateInput = (event) => {
+    setValue(event.target.name, event.target.value, {
+      shouldValidate: true,
+    });
+  };
+
+  function addSuccess() {
+    handler(false);
+    render(Math.round(Math.random() * 100));
+  }
+  ipcRenderer.once('insert_members', (event, data) => {
+    data.status == 1
+      ? addSuccess()
+      : setError('phoneNumber', {
+          type: 'manual',
+          message: data.message,
+        });
+  });
+
+  const submit = (data) => {
+    ipcRenderer.send('insert', { tableName: 'members', record: data });
+  };
+
   return (
-    <div
-      id="authentication-modal"
-      tabindex="-1"
-      aria-hidden="true"
-      class="fixed top-0 left-0 right-0 z-50 flex justify-center items-center bg-[#0c0c0cd5] w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0  h-full"
-    >
-      <div class="relative w-full max-w-md max-h-full">
-        <div class="relative bg-[#131212] rounded shadow-lg">
-          <button
-            type="button"
-            class="absolute top-3 right-2.5 text-gray-400 bg-transparent  hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center  dark:hover:text-white"
-            data-modal-hide="authentication-modal"
-            onClick={() => props.setMemberModel(false)}
-          >
-            <svg
-              aria-hidden="true"
-              class="w-5 h-5"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-            <span class="sr-only">Close modal</span>
-          </button>
-          <div class="px-6 py-6 lg:px-8">
-            <h1 className="text-white font-semibold text-2xl linear-gradient text-center my-5">
-              New Member Inventory
-            </h1>
-            <form class="space-y-6" action="#">
-              <NameField />
-              <PhoneField />
-              <CNICField />
-              <button
-                type="submit"
-                class="w-full text-white   focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-[#22722E]"
-              >
-                Add
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+    <ThemeModel title="New Member Inventory" handler={handler}>
+      <form class="" action="#">
+        {addMember.map((field, idx) => {
+          return (
+            <>
+              <div class="relative w-full  pe-2  ">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  {field.icon}
+                </div>
+                <input
+                  type={field.type}
+                  class={`outline-none  ${
+                    errors[field.name] ? 'border-[#fc1b1b]' : 'border-[#272727]'
+                  } border bg-[#1b1b1b] text-gray-400 text-sm rounded block w-full pl-10 p-2.5 transition   placeholder-gray-400 `}
+                  placeholder={field.placeholder}
+                  {...register(field.name, {
+                    ...field.register,
+                    onChange: validateInput,
+                  })}
+                />
+              </div>
+              <p className=" font-normal text-red-500 text-xs  h-[20px]  ">
+                {errors[field.name] && errors[field.name].message}
+              </p>
+            </>
+          );
+        })}
+        <button
+          type="submit"
+          class="w-full text-white    font-medium rounded text-sm px-5 py-2.5 text-center bg-[#22722E]"
+          onClick={handleSubmit(submit)}
+        >
+          Add
+        </button>
+      </form>
+    </ThemeModel>
   );
 };
 

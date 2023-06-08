@@ -43,12 +43,22 @@ const items = (state = [], action) => {
   }
 };
 
+const members = (state = [], action) => {
+  switch (action.type) {
+    case 'ALL_MEMBERS':
+      return [...action.payload];
+    default:
+      return state;
+  }
+};
+
 // ==== Root Reducers =====
 const rootReducer = combineReducers({
   cart: cartManuplation,
   cartModel: cart,
   getCategories: categories,
   getItems: items,
+  getMembers: members,
 });
 
 export default rootReducer;

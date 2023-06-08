@@ -1,4 +1,4 @@
-export const newItem = [
+export const addItem = [
   {
     name: 'name',
     type: 'text',

@@ -3,7 +3,7 @@ import ThemeModel from './theme';
 import { useForm } from 'react-hook-form';
 import { ipcRenderer } from 'electron';
 import { useEffect } from 'react';
-import { newItem } from '../validation';
+import { addItem } from '../inputValidations';
 import { useSelector } from 'react-redux';
 const ItemModel = ({ handler, render }) => {
   const {
@@ -66,7 +66,6 @@ const ItemModel = ({ handler, render }) => {
 
   useEffect(() => {
     ipcRenderer.send('getThumbnails');
-
     return () => {};
   }, []);
 
@@ -77,7 +76,7 @@ const ItemModel = ({ handler, render }) => {
           <div className="w-full mb-6">
             <h4 className="linear-gradient">Please fill item information</h4>
           </div>
-          {newItem.map((field, idx) => {
+          {addItem.map((field, idx) => {
             return (
               <>
                 <div class="relative w-full  pe-2  ">
