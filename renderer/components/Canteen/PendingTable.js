@@ -3,6 +3,8 @@ import Pagination from '../Pagination';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getHistory } from '../../redux/action';
+import Empty from '../Empty';
+import shortUUID from 'short-uuid';
 
 const PendingTable = ({ data, setMemberHistory }) => {
   const [pgeFilters, setPgeFilters] = useState([]);
@@ -98,7 +100,10 @@ const PendingTable = ({ data, setMemberHistory }) => {
                       pgeFilters[pgeIndex].map((item, idx) => {
                         return (
                           idx < 7 && (
-                            <tr className="border-b border-b-[#272727]">
+                            <tr
+                              key={shortUUID.generate()}
+                              className="border-b border-b-[#272727]"
+                            >
                               <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap ">
                                 <div class="inline-flex items-center gap-x-3 justify-center">
                                   <span>#3066</span>
@@ -117,9 +122,9 @@ const PendingTable = ({ data, setMemberHistory }) => {
                                     <path
                                       d="M10 3L4.5 8.5L2 6"
                                       stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
                                     />
                                   </svg>
 
@@ -177,9 +182,7 @@ const PendingTable = ({ data, setMemberHistory }) => {
                         );
                       })
                     ) : (
-                      <p className="py-4 px-4 font-medium text-white">
-                        No items available.
-                      </p>
+                      <Empty key={shortUUID.generate()} />
                     )}
                   </tbody>
                 </table>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useRef } from 'react';
+import shortUUID from 'short-uuid';
 
 const HistoryTable = ({ history }) => {
   const [transaction, setTransaction] = useState([]);
@@ -16,7 +16,6 @@ const HistoryTable = ({ history }) => {
         });
       }
     });
-    console.log(res);
   };
 
   useEffect(() => {
@@ -74,10 +73,10 @@ const HistoryTable = ({ history }) => {
         </tr>
       </thead>
       <tbody class=" ">
-        {history.map((data, idx) => {
+        {history.map((data) => {
           return (
             <>
-              <tr className="">
+              <tr key={shortUUID.generate()} className="">
                 <td class=" text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-center">
                   {data.type}
                 </td>

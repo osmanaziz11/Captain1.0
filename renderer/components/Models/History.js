@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import HistoryTable from './HistoryTable';
 import { useSelector } from 'react-redux';
+import shortUUID from 'short-uuid';
 
 const History = () => {
   const userHistory = useSelector((curr) => curr.getHistory);
@@ -57,9 +58,9 @@ const History = () => {
   return (
     <>
       {userData.length > 0 &&
-        userData.map((data, idx) => {
+        userData.map((data) => {
           return (
-            <div className="flex w-full mb-3">
+            <div key={shortUUID.generate()} className="flex w-full mb-3">
               <div className="w-full">
                 <div className="flex items-center">
                   <div className="w-[12px] h-[12px] rounded-full border-zinc-800 border-2 bg-transparent mt-1"></div>
