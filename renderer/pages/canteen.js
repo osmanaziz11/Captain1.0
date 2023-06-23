@@ -1,16 +1,16 @@
 import FloatingCart from '../components/Canteen/FloatingCart';
 import { useDispatch, useSelector } from 'react-redux';
-import ItemModel from '../components/Models/ItemModel';
 import Category from '../components/Canteen/Category';
 import Search from '../components/Canteen/Search';
 import Item from '../components/Canteen/Item';
 import { closeCart, getCategories, getItems, resetCart } from '../redux/action';
-import { useEffect } from 'react';
-import React from 'react';
+import { useEffect, useState } from 'react';
 import Cart from '../components/Models/Cart';
-import { useState } from 'react';
+import Empty from '../components/Empty';
+import shortUUID from 'short-uuid';
 
 const Canteen = () => {
+  const [render, setRender] = useState(0);
   const categories = useSelector((state) => state.getCategories);
   const items = useSelector((state) => state.getItems);
   const cart = useSelector((state) => state.cartModel);
@@ -22,14 +22,15 @@ const Canteen = () => {
     return () => {
       dispatch(resetCart());
     };
-  }, []);
+  }, [render]);
 
   function closeCartModel(value) {
     dispatch(closeCart());
   }
+
   return (
     <>
-      {cart && <Cart handler={closeCartModel} />}
+      {cart && <Cart handler={closeCartModel} render={setRender} />}
 
       <div className="canteen p-10 w-full h-full overflow-scroll">
         {/* ==== Filters & Search ===== */}
@@ -42,8 +43,10 @@ const Canteen = () => {
                 </li>
               )}
               {categories.length > 0 &&
-                categories.map((item, idx) => {
-                  return <Category key={item.id} data={item} opts="1" />;
+                categories.map((item) => {
+                  return (
+                    <Category key={shortUUID.generate()} data={item} opts="1" />
+                  );
                 })}
             </ul>
           </div>
@@ -53,22 +56,16 @@ const Canteen = () => {
         </div>
         {/* ==== End ===== */}
 
-        {/* ==== Recent Items Window ===== */}
-        {/* <div className="w-full px-0 flex flex-wrap mt-3 ">
-        <Item data={{ title: 'Coke Tin', price: 'Rs/- 100' }} />
-      </div> */}
-        {/* ==== End ===== */}
-
         {/* ==== Canteen items Window ===== */}
-        <div className="w-full px-0 flex flex-wrap mt-5">
+        <div className="w-full px-0 flex flex-wrap mt-5 ">
           {items.length > 0 ? (
-            items.map((item, idx) => {
-              return <Item data={item} />;
+            items.map((item) => {
+              return (
+                <Item key={shortUUID.generate()} render={render} data={item} />
+              );
             })
           ) : (
-            <p className="py-4 px-4 font-medium text-base">
-              You don't have any inventory
-            </p>
+            <Empty />
           )}
         </div>
         {/* ==== End ===== */}

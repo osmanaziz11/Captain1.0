@@ -23,6 +23,7 @@
     "redux": "^4.2.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.2",
+    "short-uuid": "^4.2.2",
     "sqlite3": "^5.1.6",
     "tailwindcss": "^3.3.2"
   },

@@ -1,14 +1,13 @@
-import React from 'react';
-import { useState } from 'react';
 import DelCategory from '../Models/DelCategory';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import React from 'react';
 
 const Category = ({
   data,
   render,
   opts,
   filters,
-
   selectedCatg,
   setSelectedCatg,
 }) => {

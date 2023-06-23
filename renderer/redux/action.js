@@ -52,3 +52,12 @@ export const getMembers = () => {
     ipcRenderer.send('getAll', 'members');
   };
 };
+
+export const getHistory = (data) => {
+  return async (dispatch) => {
+    ipcRenderer.once('get_memberHistory', (event, data) => {
+      dispatch({ type: 'MEMBER_HISTORY', payload: data });
+    });
+    ipcRenderer.send('getHistory', data);
+  };
+};

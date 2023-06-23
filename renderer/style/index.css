@@ -37,3 +37,15 @@
   transition: all 0.8s;
 }
 /* ==== End ==== */
+
+/* Hide the spinner appearance for number input */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox-specific style to hide the spinner appearance */
+input[type='number'] {
+  -moz-appearance: textfield;
+}

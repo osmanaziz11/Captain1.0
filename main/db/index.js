@@ -39,7 +39,7 @@ export async function insertRecord(data) {
     const columns = Object.keys(record).join(', ');
     const values = Object.values(record)
       .map((value) => (typeof value === 'string' ? `'${value}'` : value))
-      .join(', ');
+      .join(',');
 
     const insertSQL = `INSERT INTO ${tableName} (${columns}) VALUES (${values})`;
 
@@ -49,6 +49,25 @@ export async function insertRecord(data) {
       } else {
         console.log(`Record inserted successfully into ${tableName}`);
         resolve(this.lastID);
+      }
+    });
+  });
+}
+
+export async function updateItems(data) {
+  return new Promise((resolve, reject) => {
+    const { tableName, columns } = data;
+
+    const updateSQL = `UPDATE items SET sold = sold + ? WHERE name = ?`;
+    const values = [parseInt(columns.quantity.split(' ')[1][0]), columns.name];
+
+    db.run(updateSQL, values, function (err) {
+      if (err) {
+        console.error(err);
+        reject(err);
+      } else {
+        console.log(`Record updated successfully in items table`);
+        resolve();
       }
     });
   });
@@ -82,6 +101,20 @@ export async function deleteRecord(data) {
       } else {
         console.log(`Record deleted successfully from ${tableName}`);
         resolve();
+      }
+    });
+  });
+}
+
+export async function fetchRecord(data) {
+  return new Promise((resolve, reject) => {
+    const getSQL = `Select * FROM memberHistory WHERE phoneNumber = "${data}" ORDER BY date DESC;`;
+    db.all(getSQL, function (err, rows) {
+      if (err) {
+        reject(err);
+      } else {
+        console.log(`Record fetched successfully from memberHistory`);
+        resolve(rows);
       }
     });
   });

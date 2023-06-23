@@ -12,5 +12,10 @@ const Schema = [
     tableName: 'members',
     columns: ' name TEXT, phoneNumber TEXT PRIMARY KEY, cnic TEXT',
   },
+  {
+    tableName: 'memberHistory',
+    columns:
+      'transId INTEGER,phoneNumber TEXT, date DATE,type TEXT,name TEXT,price TEXT,total REAL,paid REAL, balance REAL, FOREIGN KEY (phoneNumber) REFERENCES members(phoneNumber)',
+  },
 ];
 export default Schema;

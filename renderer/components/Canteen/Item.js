@@ -1,8 +1,10 @@
 import { addToCart, removeFromCart } from '../../redux/action';
 import { useDispatch } from 'react-redux';
 import React, { useState } from 'react';
+import { useEffect } from 'react';
+import Currency from '../Currency';
 
-const Item = ({ data }) => {
+const Item = ({ data, render }) => {
   const [itemClick, setItemClick] = useState(false);
   const dispatch = useDispatch();
 
@@ -11,9 +13,15 @@ const Item = ({ data }) => {
     if (!itemClick) {
       dispatch(addToCart(data));
     } else {
-      dispatch(removeFromCart({ id: data.id }));
+      dispatch(removeFromCart({ id: data.name }));
     }
   };
+
+  useEffect(() => {
+    return () => {
+      setItemClick(false);
+    };
+  }, [render]);
 
   return (
     <div
@@ -26,9 +34,13 @@ const Item = ({ data }) => {
           alt=""
         />
       </div>
-      <div className="w-full ">
-        <p className="text-center text-white">{data.name}</p>
-        <p className="text-center text-white">{data.salePrice}</p>
+      <div className="w-full mt-1">
+        <p className="text-center  text-gray-500 dark:text-gray-400 font-medium">
+          {data.name}
+        </p>
+        <p className="text-center text-gray-500 dark:text-gray-400 font-medium">
+          <Currency amount={data.salePrice} />
+        </p>
       </div>
       {/* ===== Out of stock effect ==== 1a1919da */}
       {Math.abs(data.quantity - data.sold) === 0 && (
@@ -41,12 +53,16 @@ const Item = ({ data }) => {
 
       {/* ==== Item Selected ==== */}
       <div
-        className={`w-full h-full absolute top-0 bg-[#1a191931] transition border-2 border-[#3AB54A] rounded z-0 ${
+        className={`w-full h-full absolute top-0 bg-[#1a191931] transition border-2 border-[#2d943b] rounded z-0 ${
           itemClick ? 'opacity-100' : 'opacity-0'
         }`}
         onClick={itemCart}
       >
-        <span className="absolute -top-2 -right-1">
+        <span
+          className={`absolute -top-2 -right-1  ${
+            itemCart ? 'scale-100' : 'scale-0'
+          } transition`}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"

@@ -3,7 +3,13 @@ import { app } from 'electron';
 import fs from 'fs';
 import path from 'path';
 
-import { deleteRecord, fetchRecords, insertRecord } from './db';
+import {
+  deleteRecord,
+  fetchRecord,
+  fetchRecords,
+  insertRecord,
+  updateItems,
+} from './db';
 
 ipcMain.on('getAll', (event, data) => {
   fetchRecords(data)
@@ -12,6 +18,16 @@ ipcMain.on('getAll', (event, data) => {
     })
     .catch((err) => {
       event.reply(`get_${data}`, []);
+    });
+});
+
+ipcMain.on('getHistory', (event, data) => {
+  fetchRecord(data)
+    .then((rows) => {
+      event.reply(`get_memberHistory`, rows);
+    })
+    .catch((err) => {
+      event.reply(`get_memberHistory`, []);
     });
 });
 
@@ -25,6 +41,18 @@ ipcMain.on('insert', async (event, data) => {
     const msg =
       JSON.parse(JSON.stringify(err)).errno == 19 ? 'Already exist' : '';
     event.reply(`insert_${data.tableName}`, { status: 0, message: msg });
+  }
+});
+
+ipcMain.on('update', async (event, data) => {
+  try {
+    const resp = await updateItems(data);
+    event.reply(`update_${data.tableName}`, { status: 1 });
+  } catch (err) {
+    console.log(err);
+    // const msg =
+    //   JSON.parse(JSON.stringify(err)).errno == 19 ? 'Already exist' : '';
+    event.reply(`update_${data.tableName}`, { status: 0, message: '' });
   }
 });
 

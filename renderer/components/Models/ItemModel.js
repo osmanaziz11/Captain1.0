@@ -3,7 +3,7 @@ import ThemeModel from './theme';
 import { useForm } from 'react-hook-form';
 import { ipcRenderer } from 'electron';
 import { useEffect } from 'react';
-import { addItem } from '../inputValidations';
+import { addItem } from '../inputValidations/addItem';
 import { useSelector } from 'react-redux';
 const ItemModel = ({ handler, render }) => {
   const {

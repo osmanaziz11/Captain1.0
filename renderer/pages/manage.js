@@ -1,14 +1,12 @@
+import CategoryModel from '../components/Models/CategoryModel';
+import { getCategories, getItems } from '../redux/action';
 import ItemsTable from '../components/Manage/ItemsTable';
+import ItemModel from '../components/Models/ItemModel';
 import Category from '../components/Canteen/Category';
 import Search from '../components/Canteen/Search';
-import React from 'react';
-import ItemModel from '../components/Models/ItemModel';
-import CategoryModel from '../components/Models/CategoryModel';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCategories, getItems } from '../redux/action';
-import Pagination from '../components/Pagination';
+import { useState, useEffect } from 'react';
+import shortUUID from 'short-uuid';
 
 const Manage = () => {
   const categories = useSelector((state) => state.getCategories);
@@ -17,7 +15,7 @@ const Manage = () => {
   const [categ, setCateg] = useState(false);
   const [item, setItem] = useState(false);
   const [render, setRender] = useState(0);
-  const [filters, setFilters] = useState([...items]);
+  const [filters, setFilters] = useState([]);
   const [selectedCatg, setSelectedCatg] = useState('All');
 
   const dispatch = useDispatch();
@@ -27,10 +25,14 @@ const Manage = () => {
     dispatch(getItems());
   }, [render]);
 
+  useEffect(() => {
+    setFilters(() => [...items]);
+  }, [items]);
+
   return (
     <div className="canteen p-10 w-full h-full overflow-scroll">
       {categ && <CategoryModel handler={setCateg} render={setRender} />}
-      {item && <ItemModel handler={setItem} render={setRender} opts="0" />}
+      {item && <ItemModel handler={setItem} render={setRender} />}
 
       {/* ==== Filters & Search ===== */}
       <div className="w-full h-[50px] flex">
@@ -53,7 +55,7 @@ const Manage = () => {
               categories.map((item, idx) => {
                 return (
                   <Category
-                    key={idx}
+                    key={shortUUID.generate()}
                     data={item}
                     render={setRender}
                     filters={setFilters}
@@ -86,7 +88,7 @@ const Manage = () => {
 
       {/* ==== Canteen items Detail Window ===== */}
       <div className="w-full px-0 flex flex-wrap mt-5">
-        <ItemsTable data={filters} setRender={setRender} />
+        <ItemsTable data={filters} render={setRender} />
       </div>
       {/* ==== End ===== */}
     </div>

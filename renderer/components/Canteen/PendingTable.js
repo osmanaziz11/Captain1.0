@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import Pagination from '../Pagination';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getHistory } from '../../redux/action';
 
 const PendingTable = ({ data, setMemberHistory }) => {
   const [pgeFilters, setPgeFilters] = useState([]);
   const [pgeIndex, setPgeIndex] = useState(0);
+  const dispatch = useDispatch();
 
   const applyPagination = () => {
     const tempArr = [...data];
@@ -156,7 +159,10 @@ const PendingTable = ({ data, setMemberHistory }) => {
                                 >
                                   <button
                                     class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none"
-                                    onClick={() => setMemberHistory(true)}
+                                    onClick={() => {
+                                      setMemberHistory(true);
+                                      dispatch(getHistory(item.phoneNumber));
+                                    }}
                                   >
                                     View
                                   </button>

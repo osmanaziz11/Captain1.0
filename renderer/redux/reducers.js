@@ -6,7 +6,7 @@ const cartManuplation = (state = [], action) => {
     case 'ADD_TO_CART':
       return [...state, action.payload];
     case 'REMOVE_FROM_CART':
-      state = state.filter((obj) => obj.id !== action.payload.id);
+      state = state.filter((obj) => obj.name !== action.payload.id);
       return state;
     case 'REMOVE_ALL_FROM_CART':
       state = [];
@@ -51,14 +51,23 @@ const members = (state = [], action) => {
       return state;
   }
 };
+const memberHistory = (state = [], action) => {
+  switch (action.type) {
+    case 'MEMBER_HISTORY':
+      return [...action.payload];
+    default:
+      return state;
+  }
+};
 
 // ==== Root Reducers =====
 const rootReducer = combineReducers({
-  cart: cartManuplation,
+  getCartItems: cartManuplation,
   cartModel: cart,
   getCategories: categories,
   getItems: items,
   getMembers: members,
+  getHistory: memberHistory,
 });
 
 export default rootReducer;

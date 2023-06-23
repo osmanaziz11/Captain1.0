@@ -3,7 +3,7 @@ import { openCart } from '../../redux/action';
 import React, { useState } from 'react';
 
 const FloatingCart = () => {
-  const cart = useSelector((state) => state.cart);
+  const cart = useSelector((state) => state.getCartItems);
   const dispatch = useDispatch();
 
   return (
