@@ -48,7 +48,7 @@ const PendingTable = ({ data, setMemberHistory }) => {
                       >
                         <div class="flex items-center gap-x-3">
                           <button class="flex items-center gap-x-2 justify-center">
-                            <span>Id</span>
+                            <span>Name</span>
                           </button>
                         </div>
                       </th>
@@ -57,14 +57,13 @@ const PendingTable = ({ data, setMemberHistory }) => {
                         scope="col"
                         class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400"
                       >
-                        Status
+                        CNIC
                       </th>
-
                       <th
                         scope="col"
                         class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400"
                       >
-                        Customer
+                        Status
                       </th>
 
                       <th
@@ -104,13 +103,26 @@ const PendingTable = ({ data, setMemberHistory }) => {
                               key={shortUUID.generate()}
                               className="border-b border-b-[#272727]"
                             >
-                              <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap ">
-                                <div class="inline-flex items-center gap-x-3 justify-center">
-                                  <span>#3066</span>
+                              <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                <div class="flex items-center gap-x-2 justify-start">
+                                  <img
+                                    class="object-cover w-8 h-8 rounded-full"
+                                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+                                    alt=""
+                                  />
+                                  <div>
+                                    <h2 class="text-sm font-medium text-gray-800 dark:text-white ">
+                                      {item.name}
+                                    </h2>
+                                  </div>
                                 </div>
                               </td>
 
-                              <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                              <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-center">
+                                {item.cnic}
+                              </td>
+
+                              <td class="px-4 hidden py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                 <div class="inline-flex w-full items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800 justify-center">
                                   <svg
                                     width="12"
@@ -131,26 +143,28 @@ const PendingTable = ({ data, setMemberHistory }) => {
                                   <h2 class="text-sm font-normal">Paid</h2>
                                 </div>
                               </td>
-                              <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                                <div class="flex items-center gap-x-2 justify-center">
-                                  <img
-                                    class="object-cover w-8 h-8 rounded-full"
-                                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-                                    alt=""
-                                  />
-                                  <div>
-                                    <h2 class="text-sm font-medium text-gray-800 dark:text-white ">
-                                      {item.name}
-                                    </h2>
-                                    <p class="text-xs font-normal text-gray-600 dark:text-gray-400">
-                                      {item.cnic ? item.cnic : 'Not Found'}
-                                    </p>
-                                  </div>
+                              <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <div class="inline-flex w-full items-center px-3 py-1 rounded-full gap-x-2 text-red-500 bg-emerald-100/60 dark:bg-gray-800 justify-center">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 20 20"
+                                  >
+                                    <path
+                                      fill="currentColor"
+                                      d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15l-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152l2.758 3.15a1.2 1.2 0 0 1 0 1.698z"
+                                    />
+                                  </svg>
+
+                                  <h2 class="text-sm font-normal">Not Paid</h2>
                                 </div>
                               </td>
+
                               <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-center">
                                 {item.phoneNumber}
                               </td>
+
                               <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-center">
                                 40,000
                               </td>
@@ -182,7 +196,11 @@ const PendingTable = ({ data, setMemberHistory }) => {
                         );
                       })
                     ) : (
-                      <Empty key={shortUUID.generate()} />
+                      <tr>
+                        <td className="px-2 py-3 text-gray-400 font-medium">
+                          No members to show.
+                        </td>
+                      </tr>
                     )}
                   </tbody>
                 </table>

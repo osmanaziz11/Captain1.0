@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import HistoryTable from './HistoryTable';
 import { useSelector } from 'react-redux';
 import shortUUID from 'short-uuid';
+import { useRef } from 'react';
 
 const History = () => {
   const userHistory = useSelector((curr) => curr.getHistory);
+  const [refCurrent, setRefCurrent] = useState({});
   const [userData, setUserData] = useState([]);
-  const [paidAmount, setPaidAmount] = useState(0);
-  const [balanceAmount, setBalanceAmount] = useState(0);
 
   // User-defined
   const userTotal = (arr) => {
@@ -43,20 +43,30 @@ const History = () => {
     setUserData(() => [...historyArr]);
   };
 
-  const opts = {
-    userData,
-    paidAmount,
-    balanceAmount,
-    setPaidAmount,
-    setBalanceAmount,
-  };
-
   useEffect(() => {
     generateHistory();
-    console.log(userHistory);
   }, [userHistory]);
+
+  useEffect(() => {
+    let totalBalance = 0;
+    let paidAmount = 0;
+    userData.forEach((data) => {
+      totalBalance += data.balanceAmount;
+      paidAmount += data.paidAmount;
+    });
+
+    setRefCurrent({ totalBalance, paidAmount });
+  }, [userData]);
+
   return (
     <>
+      <p
+        className={`font-semibold text-lg  text-center  mb-1 ${
+          refCurrent.totalBalance > 0 ? 'text-red-600' : 'text-green-600'
+        }`}
+      >
+        Total Balance: {refCurrent.totalBalance}
+      </p>
       {userData.length > 0 &&
         userData.map((data) => {
           return (
@@ -64,7 +74,7 @@ const History = () => {
               <div className="w-full">
                 <div className="flex items-center">
                   <div className="w-[12px] h-[12px] rounded-full border-zinc-800 border-2 bg-transparent mt-1"></div>
-                  <p className="text-left text-sm text-white linear-gradient mx-3 mt-1">
+                  <p className="text-left text-sm text-white font-semibold mx-3 mt-1">
                     {data.date}
                   </p>
                 </div>
@@ -74,7 +84,7 @@ const History = () => {
 
                 <div className="flex items-center">
                   <div className="w-[12px] h-[12px] rounded-full border-zinc-800 border-2 bg-zinc-800 "></div>
-                  <p className="text-left text-sm text-white linear-gradient mx-3 ">
+                  <p className="text-left text-sm text-red-600 font-semibold mx-3 ">
                     Paid: {data.paidAmount} | Balance: {data.balanceAmount}
                   </p>
                 </div>

@@ -33,13 +33,25 @@ const Cart = ({ handler, render }) => {
     formState: { errors },
   } = useForm();
 
+  let isTrue = 0;
+
   // Renderer events
   ipcRenderer.once('update_items', (event, data) => {
-    data.status == 1 && resetDefault('');
+    if (data.status == 1) {
+      isTrue += 1;
+    }
   });
 
-  ipcRenderer.once('insert_membersHistory', (event, data) => {
-    data.status == 1 && resetDefault('');
+  ipcRenderer.once('insert_memberHistory', (event, data) => {
+    if (data.status == 1) {
+      isTrue += 1;
+    }
+  });
+
+  ipcRenderer.once('insert_payingHistory', (event, data) => {
+    if (data.status == 1 && isTrue == 2) {
+      resetDefault('');
+    }
   });
 
   //  User-defined functions
@@ -63,6 +75,14 @@ const Cart = ({ handler, render }) => {
     handler(false);
     render(Math.round(Math.random() * 100));
   };
+
+  ipcRenderer.once('insert_payingHistory', (event, data) => {
+    console.log(`mem asdasd`);
+    if (data.status == 1 && isTrue == 2) {
+      resetDefault('');
+      console.log(`ggg`);
+    }
+  });
 
   const updateInventory = (data) => {
     data.map((item, idx) => {
@@ -90,7 +110,8 @@ const Cart = ({ handler, render }) => {
     );
     const rowData = rows.map((row) => {
       const name = row.querySelector('.itemName').textContent;
-      const price = row.querySelector('.itemPrice').textContent;
+      const priceArr = cartItems.filter((curr) => curr.name == name);
+      const price = priceArr[0].salePrice;
       const quantity = row.querySelector('.itemQty').textContent;
       return {
         name,
@@ -123,6 +144,16 @@ const Cart = ({ handler, render }) => {
           },
         })
       );
+
+      ipcRenderer.send('insert', {
+        tableName: 'payingHistory',
+        record: {
+          phoneNumber: phone,
+          date: currDate(),
+          paid: amount === '' ? 0 : parseInt(amount),
+          balance: Math.abs(amount - total),
+        },
+      });
     }
   };
 
@@ -139,14 +170,6 @@ const Cart = ({ handler, render }) => {
         return false; // Member does not exist
       }
     }
-  };
-
-  const OptsWalkIn = {
-    errors: errors,
-    walk: billType,
-    register: register,
-    isMemberExist: isMemberExist,
-    validateInput: validateInput,
   };
 
   useEffect(() => {

@@ -40,14 +40,18 @@ const Pending = () => {
         </div>
         <div className=" w-[60%] ps-2 flex">
           <div
+            class="ms-3 relative px-4  shadow-lg border-b-[#272727] bg-[#1b1b1b] rounded flex justify-center items-center h-[40px] cursor-pointer"
+            onClick={filterMembers}
+          >
+            <p className="text-gray-400 ">All</p>
+          </div>
+          <div
             class="mx-3 relative px-3  shadow-lg border-b-[#272727] bg-[#1b1b1b] rounded flex justify-center items-center h-[40px] cursor-pointer"
             onClick={filterMembers}
           >
-            <p className="text-gray-400 text-2xl font-bold me-2 pb-1"> </p>
             <p className="text-gray-400 "> Paid Amount</p>
           </div>
           <div class=" relative px-4 shadow-lg border-b-[#272727] bg-[#1b1b1b] rounded flex justify-center items-center h-[40px] cursor-pointer ">
-            <p className="text-gray-400 text-2xl font-bold me-1 pb-1"> </p>
             <p className="text-gray-400 "> Pending Amount</p>
           </div>
         </div>

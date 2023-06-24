@@ -1,9 +1,8 @@
-import React from 'react';
 import { addMember } from '../inputValidations/addMember';
-import ThemeModel from './theme';
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
 import { ipcRenderer } from 'electron';
+import ThemeModel from './theme';
+import React from 'react';
 
 const MemberModel = ({ handler, render }) => {
   const {
@@ -43,7 +42,7 @@ const MemberModel = ({ handler, render }) => {
         {addMember.map((field, idx) => {
           return (
             <>
-              <div class="relative w-full  pe-2  ">
+              <div key={idx} class="relative w-full  pe-2  ">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                   {field.icon}
                 </div>

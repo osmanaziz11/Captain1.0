@@ -17,5 +17,9 @@ const Schema = [
     columns:
       'transId INTEGER,phoneNumber TEXT, date DATE,type TEXT,name TEXT,price TEXT,total REAL,paid REAL, balance REAL, FOREIGN KEY (phoneNumber) REFERENCES members(phoneNumber)',
   },
+  {
+    tableName: 'payingHistory',
+    columns: 'phoneNumber TEXT, date DATE,paid REAL,balance REAL',
+  },
 ];
 export default Schema;
