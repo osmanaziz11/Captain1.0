@@ -34,6 +34,14 @@ const categories = (state = [], action) => {
       return state;
   }
 };
+const updateBalance = (state = {}, action) => {
+  switch (action.type) {
+    case 'UPDATE_BALANCE':
+      return action.payload;
+    default:
+      return state;
+  }
+};
 const items = (state = [], action) => {
   switch (action.type) {
     case 'ALL_ITEMS':
@@ -68,6 +76,7 @@ const rootReducer = combineReducers({
   getItems: items,
   getMembers: members,
   getHistory: memberHistory,
+  getBalance: updateBalance,
 });
 
 export default rootReducer;

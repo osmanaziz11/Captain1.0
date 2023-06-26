@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import HistoryTable from './HistoryTable';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import shortUUID from 'short-uuid';
 import { useRef } from 'react';
+import { updateBalance } from '../../redux/action';
 
 const History = () => {
   const userHistory = useSelector((curr) => curr.getHistory);
   const [refCurrent, setRefCurrent] = useState({});
   const [userData, setUserData] = useState([]);
+  const dispatch = useDispatch();
 
   // User-defined
   const userTotal = (arr) => {
@@ -54,7 +56,12 @@ const History = () => {
       totalBalance += data.balanceAmount;
       paidAmount += data.paidAmount;
     });
-
+    dispatch(
+      updateBalance({
+        balance: totalBalance,
+        phoneNumber: userHistory[0]?.phoneNumber,
+      })
+    );
     setRefCurrent({ totalBalance, paidAmount });
   }, [userData]);
 

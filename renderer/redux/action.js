@@ -28,6 +28,13 @@ export function closeCart() {
   };
 }
 
+export function updateBalance(payload) {
+  return {
+    type: 'UPDATE_BALANCE',
+    payload,
+  };
+}
+
 export const getCategories = () => {
   return async (dispatch) => {
     ipcRenderer.once('get_categories', (event, data) => {
