@@ -4,7 +4,6 @@ import TableBill from '../Canteen/TableBill';
 import { useForm } from 'react-hook-form';
 import React, { useEffect } from 'react';
 import BillRow from '../Canteen/BillRow';
-import WalkIn from '../Canteen/WalkIn';
 import { ipcRenderer } from 'electron';
 import Currency from '../Currency';
 import { useState } from 'react';

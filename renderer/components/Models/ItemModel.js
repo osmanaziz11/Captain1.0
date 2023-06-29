@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import ThemeModel from './theme';
-import { useForm } from 'react-hook-form';
-import { ipcRenderer } from 'electron';
-import { useEffect } from 'react';
 import { addItem } from '../inputValidations/addItem';
+import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import { ipcRenderer } from 'electron';
+import shortUUID from 'short-uuid';
+import ThemeModel from './theme';
+
 const ItemModel = ({ handler, render }) => {
   const {
     register,
@@ -36,8 +37,8 @@ const ItemModel = ({ handler, render }) => {
   }
 
   ipcRenderer.on('thumbnailsData', (event, data) => {
-    if (data.error) {
-      console.error(data.error);
+    if (data.status !== 200) {
+      console.log(data.message);
     } else {
       setGallery(data.content);
     }
@@ -78,7 +79,7 @@ const ItemModel = ({ handler, render }) => {
           </div>
           {addItem.map((field, idx) => {
             return (
-              <>
+              <div key={shortUUID.generate()}>
                 <div class="relative w-full  pe-2  ">
                   <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     {field.icon}
@@ -97,7 +98,7 @@ const ItemModel = ({ handler, render }) => {
                 <p className=" font-normal text-red-500 text-xs  h-[20px]  ">
                   {errors[field.name] && errors[field.name].message}
                 </p>
-              </>
+              </div>
             );
           })}
 
@@ -110,9 +111,9 @@ const ItemModel = ({ handler, render }) => {
               >
                 <path
                   fill="currentColor"
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M0 3.5A1.5 1.5 0 0 1 1.5 2h12A1.5 1.5 0 0 1 15 3.5v8a1.5 1.5 0 0 1-1.5 1.5h-12A1.5 1.5 0 0 1 0 11.5v-8ZM3 6a2 2 0 1 1 4 0a2 2 0 0 1-4 0Zm9 0H9V5h3v1Zm0 3H9V8h3v1ZM5 9a2.927 2.927 0 0 0-2.618 1.618l-.33.658A.5.5 0 0 0 2.5 12h5a.5.5 0 0 0 .447-.724l-.329-.658A2.927 2.927 0 0 0 5 9Z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 />
               </svg>
             </div>
@@ -123,7 +124,11 @@ const ItemModel = ({ handler, render }) => {
             >
               {category.length > 0 &&
                 category.map((cat, idx) => {
-                  return <option value={cat.name}>{cat.name}</option>;
+                  return (
+                    <option key={shortUUID.generate()} value={cat.name}>
+                      {cat.name}
+                    </option>
+                  );
                 })}
             </select>
           </div>
@@ -138,6 +143,7 @@ const ItemModel = ({ handler, render }) => {
 
             {gallery.length > 0 &&
               gallery.map((item, idx) => {
+                if (item === 'default.png') return;
                 const isSelected = selectedIndex === idx;
                 const borderClass = isSelected
                   ? 'border-green-500 border-2'
@@ -145,7 +151,7 @@ const ItemModel = ({ handler, render }) => {
 
                 return (
                   <div
-                    key={idx}
+                    key={shortUUID.generate()}
                     id={idx}
                     className={`w-[65px] h-[68px] mb-1 me-[2.9px]  rounded-sm shadow-lg bg-[#1b1b1b] p-2 cursor-pointer ${borderClass}`}
                     onClick={() => thumbnailSelect(idx)}

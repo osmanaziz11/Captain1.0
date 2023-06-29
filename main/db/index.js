@@ -73,6 +73,32 @@ export async function updateItems(data) {
   });
 }
 
+export async function updateRecord(data) {
+  return new Promise((resolve, reject) => {
+    const { tableName, columns, condition, id } = data;
+    console.log(data);
+    const updateValues = Object.entries(columns)
+      .map(([column, value]) => {
+        if (typeof value === 'string') {
+          return `${column} = '${value}'`;
+        }
+        return `${column} = ${value}`;
+      })
+      .join(', ');
+
+    const updateSQL = `UPDATE ${tableName} SET ${updateValues} WHERE ${condition} = ${id}`;
+    console.log(updateSQL);
+    db.run(updateSQL, function (err) {
+      if (err) {
+        reject(err);
+      } else {
+        console.log(`Record updated successfully in ${tableName}`);
+        resolve(this.changes);
+      }
+    });
+  });
+}
+
 export async function fetchRecords(tableName) {
   return new Promise((resolve, reject) => {
     const selectSQL = `SELECT * FROM ${tableName}`;

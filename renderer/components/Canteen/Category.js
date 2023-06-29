@@ -38,7 +38,10 @@ const Category = ({
           className={`absolute ${opts == 1 && 'hidden'} -top-0 -right-1 ${
             !del ? 'scale-0' : 'scale-100'
           } transition`}
-          onClick={() => setCategDel(true)}
+          onClick={(e) => {
+            e.stopPropagation(); // Stop event propagation
+            setCategDel(true);
+          }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

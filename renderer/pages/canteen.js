@@ -1,19 +1,20 @@
+import { closeCart, getCategories, getItems, resetCart } from '../redux/action';
 import FloatingCart from '../components/Canteen/FloatingCart';
 import { useDispatch, useSelector } from 'react-redux';
 import Category from '../components/Canteen/Category';
 import Search from '../components/Canteen/Search';
 import Item from '../components/Canteen/Item';
-import { closeCart, getCategories, getItems, resetCart } from '../redux/action';
 import { useEffect, useState } from 'react';
 import Cart from '../components/Models/Cart';
 import Empty from '../components/Empty';
 import shortUUID from 'short-uuid';
 
 const Canteen = () => {
-  const [render, setRender] = useState(0);
   const categories = useSelector((state) => state.getCategories);
   const items = useSelector((state) => state.getItems);
   const cart = useSelector((state) => state.cartModel);
+
+  const [render, setRender] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {

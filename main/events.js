@@ -1,7 +1,7 @@
 import { ipcMain } from 'electron';
 import { app } from 'electron';
-import fs from 'fs';
 import path from 'path';
+import fs from 'fs';
 
 import {
   deleteRecord,
@@ -9,6 +9,7 @@ import {
   fetchRecords,
   insertRecord,
   updateItems,
+  updateRecord,
 } from './db';
 
 ipcMain.on('getAll', (event, data) => {
@@ -34,13 +35,24 @@ ipcMain.on('getHistory', (event, data) => {
 ipcMain.on('insert', async (event, data) => {
   try {
     const resp = await insertRecord(data);
-    // console.log(`resp ${resp}`);
     event.reply(`insert_${data.tableName}`, { status: 1 });
   } catch (err) {
     console.log(err);
     const msg =
       JSON.parse(JSON.stringify(err)).errno == 19 ? 'Already exist' : '';
     event.reply(`insert_${data.tableName}`, { status: 0, message: msg });
+  }
+});
+
+ipcMain.on('updateRecord', async (event, data) => {
+  try {
+    await updateRecord(data);
+    event.reply(`${data.tableName}Update`, { status: 200 });
+  } catch (err) {
+    event.reply(`${data.tableName}Update`, {
+      status: 504,
+      message: err.message,
+    });
   }
 });
 
@@ -59,7 +71,6 @@ ipcMain.on('update', async (event, data) => {
 ipcMain.on('delete', async (event, data) => {
   try {
     const resp = await deleteRecord(data);
-    // console.log(`resp ${resp}`);
     event.reply(`delete_${data.tableName}`, { status: 1 });
   } catch (err) {
     console.log(err);
@@ -71,16 +82,31 @@ ipcMain.on('delete', async (event, data) => {
 });
 
 ipcMain.on('getThumbnails', (event) => {
-  const appDirectory = app.getPath('userData');
-  const folderPath = path.join(appDirectory, 'thumbnails');
-  // Read the directory contents
-  fs.readdir(folderPath, (err, files) => {
-    if (err) {
-      // Handle error
-      console.error(err);
-      event.reply('thumbnailsData', { status: 0, message: err.message });
-    } else {
-      event.reply('thumbnailsData', { status: 1, content: files });
-    }
-  });
+  const folderPath = path.join(
+    __dirname,
+    '..',
+    'renderer',
+    'public',
+    'assets',
+    'items'
+  );
+
+  if (!fs.existsSync(folderPath)) {
+    fs.mkdirSync(folderPath);
+    event.reply('thumbnailsData', { status: 400, message: 'Folder created.' });
+  } else {
+    fs.readdir(folderPath, (err, files) => {
+      if (err) {
+        console.log(err);
+        event.reply('thumbnailsData', { status: 504, message: err.message });
+      } else {
+        files.length > 0
+          ? event.reply('thumbnailsData', { status: 200, content: files })
+          : event.reply('thumbnailsData', {
+              status: 400,
+              message: 'No files.',
+            });
+      }
+    });
+  }
 });

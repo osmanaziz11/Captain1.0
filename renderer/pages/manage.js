@@ -2,9 +2,9 @@ import CategoryModel from '../components/Models/CategoryModel';
 import { getCategories, getItems } from '../redux/action';
 import ItemsTable from '../components/Manage/ItemsTable';
 import ItemModel from '../components/Models/ItemModel';
+import { useDispatch, useSelector } from 'react-redux';
 import Category from '../components/Canteen/Category';
 import Search from '../components/Canteen/Search';
-import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import shortUUID from 'short-uuid';
 
@@ -12,17 +12,20 @@ const Manage = () => {
   const categories = useSelector((state) => state.getCategories);
   const items = useSelector((state) => state.getItems);
 
+  const [selectedCatg, setSelectedCatg] = useState('All');
+  const [filters, setFilters] = useState([]);
   const [categ, setCateg] = useState(false);
   const [item, setItem] = useState(false);
   const [render, setRender] = useState(0);
-  const [filters, setFilters] = useState([]);
-  const [selectedCatg, setSelectedCatg] = useState('All');
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getCategories());
     dispatch(getItems());
+    return () => {
+      dispatch(getItems());
+    };
   }, [render]);
 
   useEffect(() => {
@@ -69,14 +72,14 @@ const Manage = () => {
         <div className="search w-[40%] h-[40px] flex">
           <Search filter={selectedCatg} applyFilters={setFilters} />
           <div
-            class="mx-3 relative px-3  shadow-lg border-b-[#272727] bg-[#1b1b1b] rounded flex justify-center items-center h-[40px] cursor-pointer "
+            className="mx-3 relative px-3  shadow-lg border-b-[#272727] bg-[#1b1b1b] rounded flex justify-center items-center h-[40px] cursor-pointer "
             onClick={() => setCateg(true)}
           >
             <p className="text-gray-400 text-2xl font-bold me-2 pb-1"> +</p>
             <p className="text-gray-400 "> Category</p>
           </div>
           <div
-            class=" relative px-4 shadow-lg border-b-[#272727] bg-[#1b1b1b] rounded flex justify-center items-center h-[40px] cursor-pointer "
+            className=" relative px-4 shadow-lg border-b-[#272727] bg-[#1b1b1b] rounded flex justify-center items-center h-[40px] cursor-pointer "
             onClick={() => setItem(true)}
           >
             <p className="text-gray-400 text-2xl font-bold me-1 pb-1"> +</p>
