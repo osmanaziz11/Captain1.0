@@ -2,8 +2,9 @@ import { getMembers, removeFromCart, resetCart } from '../../redux/action';
 import { useDispatch, useSelector } from 'react-redux';
 import TableBill from '../Canteen/TableBill';
 import { useForm } from 'react-hook-form';
-import React, { useEffect } from 'react';
+import { currentDate } from '../../util/';
 import BillRow from '../Canteen/BillRow';
+import React, { useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 import Currency from '../Currency';
 import { useState } from 'react';
@@ -13,7 +14,6 @@ import short from 'short-uuid';
 
 const Cart = ({ handler, render }) => {
   const [billType, setBillType] = useState(false);
-  const [subTotal, setSubTotal] = useState(0);
   const [status, setStatus] = useState(true);
   const [total, setTotal] = useState(0);
   const dispatch = useDispatch();
@@ -27,7 +27,6 @@ const Cart = ({ handler, render }) => {
     handleSubmit,
     setValue,
     setError,
-    clearErrors,
     trigger,
     formState: { errors },
   } = useForm();
@@ -35,34 +34,24 @@ const Cart = ({ handler, render }) => {
   let isTrue = 0;
 
   // Renderer events
-  ipcRenderer.once('update_items', (event, data) => {
-    if (data.status == 1) {
+  ipcRenderer.once('itemsUpdate', (event, data) => {
+    if (data.status === 200) resetDefault('');
+    isTrue += 1;
+  });
+
+  ipcRenderer.once('memberHistoryInsert', (event, data) => {
+    if (data.status === 200) {
       isTrue += 1;
     }
   });
 
-  ipcRenderer.once('insert_memberHistory', (event, data) => {
-    if (data.status == 1) {
-      isTrue += 1;
-    }
-  });
-
-  ipcRenderer.once('insert_payingHistory', (event, data) => {
-    if (data.status == 1 && isTrue == 2) {
+  ipcRenderer.once('payingHistoryInsert', (event, data) => {
+    if (data.status === 200 && isTrue == 2) {
       resetDefault('');
     }
   });
 
   //  User-defined functions
-  const currDate = () => {
-    var currentDate = new Date();
-    var year = currentDate.getFullYear();
-    var month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
-    var day = ('0' + currentDate.getDate()).slice(-2);
-    var formattedDate = year + '-' + month + '-' + day;
-    return formattedDate;
-  };
-
   const validateInput = (event) => {
     setValue(event.target.name, event.target.value, {
       shouldValidate: true,
@@ -75,18 +64,10 @@ const Cart = ({ handler, render }) => {
     render(Math.round(Math.random() * 100));
   };
 
-  ipcRenderer.once('insert_payingHistory', (event, data) => {
-    console.log(`mem asdasd`);
-    if (data.status == 1 && isTrue == 2) {
-      resetDefault('');
-      console.log(`ggg`);
-    }
-  });
-
   const updateInventory = (data) => {
     data.map((item, idx) => {
       try {
-        ipcRenderer.send('update', {
+        ipcRenderer.send('updateItem', {
           tableName: 'items',
           columns: {
             name: item.name,
@@ -128,12 +109,12 @@ const Cart = ({ handler, render }) => {
       updateInventory(rowData);
       const transId = short().new();
       rowData.map((item, idx) =>
-        ipcRenderer.send('insert', {
+        ipcRenderer.send('insertRecord', {
           tableName: 'memberHistory',
-          record: {
+          columns: {
             transId: transId,
             phoneNumber: phone,
-            date: currDate(),
+            date: currentDate(),
             name: item.name,
             type: 'Canteen',
             price: `${item.quantity.split(' ')[1][0]}/${item.price}`,
@@ -144,14 +125,15 @@ const Cart = ({ handler, render }) => {
         })
       );
 
-      ipcRenderer.send('insert', {
+      ipcRenderer.send('updateRecord', {
         tableName: 'payingHistory',
-        record: {
-          phoneNumber: phone,
-          date: currDate(),
+        columns: {
+          date: currentDate(),
           paid: amount === '' ? 0 : parseInt(amount),
           balance: Math.abs(amount - total),
         },
+        condition: 'phoneNumber',
+        id: phone,
       });
     }
   };

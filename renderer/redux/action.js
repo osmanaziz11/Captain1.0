@@ -53,10 +53,10 @@ export const getItems = () => {
 };
 export const getMembers = () => {
   return async (dispatch) => {
-    ipcRenderer.once('get_members', (event, data) => {
+    ipcRenderer.once('membersRetreival', (event, data) => {
       dispatch({ type: 'ALL_MEMBERS', payload: data });
     });
-    ipcRenderer.send('getAll', 'members');
+    ipcRenderer.send('getMembers');
   };
 };
 

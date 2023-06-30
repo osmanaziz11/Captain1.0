@@ -35,14 +35,12 @@ export async function initDB() {
 
 export async function insertRecord(data) {
   return new Promise((resolve, reject) => {
-    const { tableName, record } = data;
-    const columns = Object.keys(record).join(', ');
-    const values = Object.values(record)
+    const { tableName, columns } = data;
+    const cols = Object.keys(columns).join(', ');
+    const values = Object.values(columns)
       .map((value) => (typeof value === 'string' ? `'${value}'` : value))
       .join(',');
-
-    const insertSQL = `INSERT INTO ${tableName} (${columns}) VALUES (${values})`;
-
+    const insertSQL = `INSERT INTO ${tableName} (${cols}) VALUES (${values})`;
     db.run(insertSQL, function (err) {
       if (err) {
         reject(err);
@@ -54,7 +52,7 @@ export async function insertRecord(data) {
   });
 }
 
-export async function updateItems(data) {
+export async function updateItem(data) {
   return new Promise((resolve, reject) => {
     const { tableName, columns } = data;
 
@@ -86,7 +84,7 @@ export async function updateRecord(data) {
       })
       .join(', ');
 
-    const updateSQL = `UPDATE ${tableName} SET ${updateValues} WHERE ${condition} = ${id}`;
+    const updateSQL = `UPDATE ${tableName} SET ${updateValues} WHERE ${condition} = '${id}'`;
     console.log(updateSQL);
     db.run(updateSQL, function (err) {
       if (err) {
@@ -109,6 +107,30 @@ export async function fetchRecords(tableName) {
         reject(err);
       } else {
         console.log(`Fetched records successfully from ${tableName}`);
+        resolve(rows);
+      }
+    });
+  });
+}
+
+export async function retrieveMembers() {
+  return new Promise((resolve, reject) => {
+    const selectSQL = `SELECT A.name, A.phoneNumber,A.cnic,B.date, B.paid, B.balance
+FROM members A
+JOIN payingHistory B ON A.phoneNumber = B.phoneNumber;
+`;
+
+    db.all(selectSQL, function (err, rows) {
+      if (err) {
+        console.error(
+          `Error fetching records from Members and payingHistory:`,
+          err
+        );
+        reject(err);
+      } else {
+        console.log(
+          `Fetched records successfully from Members and payingHistory`
+        );
         resolve(rows);
       }
     });

@@ -8,36 +8,42 @@ const CategoryModel = ({ handler, render }) => {
     register,
     handleSubmit,
     setValue,
-    reset,
     formState: { errors },
     setError,
   } = useForm();
 
-  const validateInput = (event) => {
+  // Renderer events
+  ipcRenderer.once('categoriesInsert', (event, data) => {
+    data.status === 200 && success();
+    data.status === 400 &&
+      setError('category', {
+        type: 'manual',
+        message: 'Category already exists',
+      });
+    data.status === 504 &&
+      setError('category', {
+        type: 'manual',
+        message: 'Category could not be created. Please try again',
+      });
+  });
+
+  //  User-defined functions
+  function validateInput(event) {
     setValue(event.target.name, event.target.value, {
       shouldValidate: true,
     });
-  };
+  }
 
-  function addSuccess() {
+  function success() {
     handler(false);
     render(Math.round(Math.random() * 100));
   }
-  ipcRenderer.once('insert_categories', (event, data) => {
-    data.status == 1
-      ? addSuccess()
-      : setError('category', {
-          type: 'manual',
-          message: data.message,
-        });
-  });
+
   function submit(data) {
-    try {
-      ipcRenderer.send('insert', {
-        tableName: 'categories',
-        record: { name: data.category },
-      });
-    } catch (error) {}
+    ipcRenderer.send('insertRecord', {
+      tableName: 'categories',
+      columns: { name: data.category },
+    });
   }
 
   return (

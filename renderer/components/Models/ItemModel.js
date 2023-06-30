@@ -31,7 +31,7 @@ const ItemModel = ({ handler, render }) => {
     setSelectedIndex(index);
   };
 
-  function addSuccess() {
+  function success() {
     handler(false);
     render(Math.round(Math.random() * 100));
   }
@@ -44,13 +44,12 @@ const ItemModel = ({ handler, render }) => {
     }
   });
 
-  ipcRenderer.once('insert_items', (event, data) => {
-    data.status == 1
-      ? addSuccess()
-      : setError('name', {
-          type: 'manual',
-          message: data.message,
-        });
+  ipcRenderer.once('itemsInsert', (event, data) => {
+    data.status === 200 && success();
+    data.status === 400 &&
+      setError('name', {
+        message: 'This item has already been added.',
+      });
   });
 
   const submit = (data) => {
@@ -61,8 +60,8 @@ const ItemModel = ({ handler, render }) => {
       ...data,
       thumbnail: selectedIndex === -1 ? 'default.png' : gallery[selectedIndex],
     };
-    console.log(payload);
-    ipcRenderer.send('insert', { tableName: 'items', record: payload });
+
+    ipcRenderer.send('insertRecord', { tableName: 'items', columns: payload });
   };
 
   useEffect(() => {
@@ -92,7 +91,9 @@ const ItemModel = ({ handler, render }) => {
                         : 'border-[#272727]'
                     } border bg-[#1b1b1b] text-gray-400 text-sm rounded block w-full pl-10 p-2.5 transition   placeholder-gray-400 `}
                     placeholder={field.placeholder}
-                    {...register(field.name, field.register)}
+                    {...register(field.name, {
+                      ...field.register,
+                    })}
                   />
                 </div>
                 <p className=" font-normal text-red-500 text-xs  h-[20px]  ">

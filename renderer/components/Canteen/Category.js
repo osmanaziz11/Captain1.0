@@ -28,7 +28,7 @@ const Category = ({
       <li
         className={`hover:bg-zinc-800 relative h-[40px] transition mx-2 border-b-2 rounded text-sm flex justify-center border-b-[#1b1b1b] ${
           selectedCatg === data.name ? 'bg-zinc-800' : 'bg-[#1b1b1b]'
-        } shadow-lg text-white py-2 px-4 cursor-pointer`}
+        } shadow-lg text-gray-500 dark:text-gray-300 py-2 px-4 cursor-pointer`}
         onMouseOver={() => setDel(true)}
         onMouseOut={() => setDel(false)}
         onClick={filterItems}

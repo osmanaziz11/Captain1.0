@@ -1,19 +1,10 @@
 import { ipcMain } from 'electron';
-import { app } from 'electron';
+import * as db from './db';
 import path from 'path';
 import fs from 'fs';
 
-import {
-  deleteRecord,
-  fetchRecord,
-  fetchRecords,
-  insertRecord,
-  updateItems,
-  updateRecord,
-} from './db';
-
 ipcMain.on('getAll', (event, data) => {
-  fetchRecords(data)
+  db.fetchRecords(data)
     .then((rows) => {
       event.reply(`get_${data}`, rows);
     })
@@ -22,8 +13,18 @@ ipcMain.on('getAll', (event, data) => {
     });
 });
 
+ipcMain.on('getMembers', (event) => {
+  db.retrieveMembers()
+    .then((rows) => {
+      event.reply(`membersRetreival`, rows);
+    })
+    .catch((err) => {
+      event.reply(`membersRetreival`, []);
+    });
+});
+
 ipcMain.on('getHistory', (event, data) => {
-  fetchRecord(data)
+  db.fetchRecord(data)
     .then((rows) => {
       event.reply(`get_memberHistory`, rows);
     })
@@ -32,21 +33,19 @@ ipcMain.on('getHistory', (event, data) => {
     });
 });
 
-ipcMain.on('insert', async (event, data) => {
+ipcMain.on('insertRecord', async (event, data) => {
   try {
-    const resp = await insertRecord(data);
-    event.reply(`insert_${data.tableName}`, { status: 1 });
+    await db.insertRecord(data);
+    event.reply(`${data.tableName}Insert`, { status: 200 });
   } catch (err) {
-    console.log(err);
-    const msg =
-      JSON.parse(JSON.stringify(err)).errno == 19 ? 'Already exist' : '';
-    event.reply(`insert_${data.tableName}`, { status: 0, message: msg });
+    const status = JSON.parse(JSON.stringify(err)).errno == 19 ? 400 : 504;
+    event.reply(`${data.tableName}Insert`, { status });
   }
 });
 
 ipcMain.on('updateRecord', async (event, data) => {
   try {
-    await updateRecord(data);
+    await db.updateRecord(data);
     event.reply(`${data.tableName}Update`, { status: 200 });
   } catch (err) {
     event.reply(`${data.tableName}Update`, {
@@ -56,21 +55,19 @@ ipcMain.on('updateRecord', async (event, data) => {
   }
 });
 
-ipcMain.on('update', async (event, data) => {
+ipcMain.on('updateItem', async (event, data) => {
   try {
-    const resp = await updateItems(data);
-    event.reply(`update_${data.tableName}`, { status: 1 });
+    await db.updateItem(data);
+    event.reply(`${data.tableName}Update`, { status: 200 });
   } catch (err) {
     console.log(err);
-    // const msg =
-    //   JSON.parse(JSON.stringify(err)).errno == 19 ? 'Already exist' : '';
-    event.reply(`update_${data.tableName}`, { status: 0, message: '' });
+    event.reply(`${data.tableName}Update`, { status: 400 });
   }
 });
 
 ipcMain.on('delete', async (event, data) => {
   try {
-    const resp = await deleteRecord(data);
+    const resp = await db.deleteRecord(data);
     event.reply(`delete_${data.tableName}`, { status: 1 });
   } catch (err) {
     console.log(err);
