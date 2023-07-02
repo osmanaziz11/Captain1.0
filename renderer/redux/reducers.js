@@ -59,6 +59,15 @@ const members = (state = [], action) => {
       return state;
   }
 };
+
+const expense = (state = [], action) => {
+  switch (action.type) {
+    case 'ALL_EXPENSE':
+      return [...action.payload];
+    default:
+      return state;
+  }
+};
 const memberHistory = (state = [], action) => {
   switch (action.type) {
     case 'MEMBER_HISTORY':
@@ -71,12 +80,13 @@ const memberHistory = (state = [], action) => {
 // ==== Root Reducers =====
 const rootReducer = combineReducers({
   getCartItems: cartManuplation,
-  cartModel: cart,
-  getCategories: categories,
-  getItems: items,
-  getMembers: members,
   getHistory: memberHistory,
+  getCategories: categories,
   getBalance: updateBalance,
+  getExpense: expense,
+  getMembers: members,
+  cartModel: cart,
+  getItems: items,
 });
 
 export default rootReducer;

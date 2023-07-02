@@ -65,6 +65,16 @@ ipcMain.on('updateItem', async (event, data) => {
   }
 });
 
+ipcMain.on('updatePayingHistory', async (event, data) => {
+  try {
+    await db.updatePayingHistory(data);
+    event.reply(`${data.tableName}Update`, { status: 200 });
+  } catch (err) {
+    console.log(err);
+    event.reply(`${data.tableName}Update`, { status: 400 });
+  }
+});
+
 ipcMain.on('delete', async (event, data) => {
   try {
     const resp = await db.deleteRecord(data);

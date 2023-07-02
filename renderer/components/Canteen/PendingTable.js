@@ -1,4 +1,4 @@
-import { getHistory } from '../../redux/action';
+import { getHistory, updateBalance } from '../../redux/action';
 import { useDispatch } from 'react-redux';
 import React, { useState } from 'react';
 import Pagination from '../Pagination';
@@ -23,6 +23,16 @@ const PendingTable = (props) => {
     return pgeArr;
   };
 
+  const handlerView = (id, value) => {
+    props.setHistoryPopup(true);
+    dispatch(getHistory(id));
+    dispatch(
+      updateBalance({
+        balance: value,
+        phoneNumber: id,
+      })
+    );
+  };
   const opts = {
     pages: pgeFilters,
     currIndex: pgeIndex,
@@ -224,10 +234,12 @@ const PendingTable = (props) => {
                                 >
                                   <button
                                     class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none"
-                                    onClick={() => {
-                                      props.setHistoryPopup(true);
-                                      dispatch(getHistory(item.phoneNumber));
-                                    }}
+                                    onClick={() =>
+                                      handlerView(
+                                        item.phoneNumber,
+                                        item.balance
+                                      )
+                                    }
                                   >
                                     View
                                   </button>

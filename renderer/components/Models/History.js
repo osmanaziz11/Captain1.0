@@ -1,15 +1,12 @@
+import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import HistoryTable from './HistoryTable';
-import { useDispatch, useSelector } from 'react-redux';
 import shortUUID from 'short-uuid';
-import { useRef } from 'react';
-import { updateBalance } from '../../redux/action';
 
 const History = () => {
   const userHistory = useSelector((curr) => curr.getHistory);
-  const [refCurrent, setRefCurrent] = useState({});
+  const { balance } = useSelector((curr) => curr.getBalance);
   const [userData, setUserData] = useState([]);
-  const dispatch = useDispatch();
 
   // User-defined
   const userTotal = (arr) => {
@@ -49,30 +46,30 @@ const History = () => {
     generateHistory();
   }, [userHistory]);
 
-  useEffect(() => {
-    let totalBalance = 0;
-    let paidAmount = 0;
-    userData.forEach((data) => {
-      totalBalance += data.balanceAmount;
-      paidAmount += data.paidAmount;
-    });
-    dispatch(
-      updateBalance({
-        balance: totalBalance,
-        phoneNumber: userHistory[0]?.phoneNumber,
-      })
-    );
-    setRefCurrent({ totalBalance, paidAmount });
-  }, [userData]);
+  // useEffect(() => {
+  //   let totalBalance = 0;
+  //   let paidAmount = 0;
+  //   userData.forEach((data) => {
+  //     totalBalance += data.balanceAmount;
+  //     paidAmount += data.paidAmount;
+  //   });
+  //   dispatch(
+  //     updateBalance({
+  //       balance: totalBalance,
+  //       phoneNumber: userHistory[0]?.phoneNumber,
+  //     })
+  //   );
+  //   setRefCurrent({ totalBalance });
+  // }, [userData]);
 
   return (
     <>
       <p
         className={`font-semibold text-lg  text-center  mb-1 ${
-          refCurrent.totalBalance > 0 ? 'text-red-600' : 'text-green-600'
+          balance > 0 ? 'text-red-600' : 'text-green-600'
         }`}
       >
-        Total Balance: {refCurrent.totalBalance}
+        Total Balance: {balance}
       </p>
       {userData.length > 0 &&
         userData.map((data) => {

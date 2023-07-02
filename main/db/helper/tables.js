@@ -21,5 +21,9 @@ const Schema = [
     tableName: 'payingHistory',
     columns: 'phoneNumber TEXT, date DATE,paid REAL,balance REAL',
   },
+  {
+    tableName: 'expenses',
+    columns: 'date DATE,type TEXT,amount REAL',
+  },
 ];
 export default Schema;

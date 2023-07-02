@@ -45,7 +45,7 @@ const Cart = ({ handler, render }) => {
     }
   });
 
-  ipcRenderer.once('payingHistoryInsert', (event, data) => {
+  ipcRenderer.once('payingHistoryUpdate', (event, data) => {
     if (data.status === 200 && isTrue == 2) {
       resetDefault('');
     }
@@ -125,14 +125,13 @@ const Cart = ({ handler, render }) => {
         })
       );
 
-      ipcRenderer.send('updateRecord', {
+      ipcRenderer.send('updatePayingHistory', {
         tableName: 'payingHistory',
         columns: {
           date: currentDate(),
-          paid: amount === '' ? 0 : parseInt(amount),
           balance: Math.abs(amount - total),
         },
-        condition: 'phoneNumber',
+        condition: 1,
         id: phone,
       });
     }

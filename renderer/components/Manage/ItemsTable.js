@@ -29,7 +29,7 @@ const ItemsTable = ({ data, render }) => {
       tableName: 'items',
       columns: { ...dict },
       condition: 'name',
-      id: `'${id}'`,
+      id: `${id}`,
     });
   };
 

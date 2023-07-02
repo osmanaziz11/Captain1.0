@@ -1,60 +1,111 @@
-import React from 'react';
+import { useForm } from 'react-hook-form';
+import { currentDate } from '../../util';
+import { ipcRenderer } from 'electron';
 import ThemeModel from './theme';
+import React from 'react';
 
-const ExpenseModel = ({ handler }) => {
+const ExpenseModel = ({ handler, render }) => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
+
+  const validateInput = (event) => {
+    setValue(event.target.name, event.target.value, {
+      shouldValidate: true,
+    });
+  };
+
+  function success() {
+    handler(false);
+    render(Math.round(Math.random() * 100));
+  }
+
+  ipcRenderer.once('expensesInsert', (event, data) => {
+    data.status === 200 && success();
+  });
+
+  const submit = (data) => {
+    ipcRenderer.send('insertRecord', {
+      tableName: 'expenses',
+      columns: {
+        ...data,
+        date: currentDate(),
+      },
+    });
+  };
+
   return (
-    <ThemeModel title="Enter Expense" handler={handler}>
-      <form class="space-y-6" action="#">
-        <div class="relative w-full shadow">
-          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+    <ThemeModel title="New Expense Inventory" handler={handler}>
+      <form className="" action="#">
+        <div className="relative w-full  pe-2  ">
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="w-5 h-5 text-gray-500 dark:text-gray-400"
-              viewBox="0 0 15 15"
+              className="w-6 h-6 text-gray-400"
+              viewBox="0 0 24 24"
             >
               <path
                 fill="currentColor"
-                fill-rule="evenodd"
-                d="M0 3.5A1.5 1.5 0 0 1 1.5 2h12A1.5 1.5 0 0 1 15 3.5v8a1.5 1.5 0 0 1-1.5 1.5h-12A1.5 1.5 0 0 1 0 11.5v-8ZM3 6a2 2 0 1 1 4 0a2 2 0 0 1-4 0Zm9 0H9V5h3v1Zm0 3H9V8h3v1ZM5 9a2.927 2.927 0 0 0-2.618 1.618l-.33.658A.5.5 0 0 0 2.5 12h5a.5.5 0 0 0 .447-.724l-.329-.658A2.927 2.927 0 0 0 5 9Z"
-                clip-rule="evenodd"
+                d="m15 16l-4 4h10v-4h-6m-2.94-8.81L3 16.25V20h3.75l9.06-9.06l-3.75-3.75m6.65.85c.39-.39.39-1.04 0-1.41l-2.34-2.34a1.001 1.001 0 0 0-1.41 0l-1.83 1.83l3.75 3.75l1.83-1.83Z"
               />
             </svg>
           </div>
           <input
             type="text"
-            id="voice-search"
-            class="outline-none border-b-[#272727] bg-[#1b1b1b] text-gray-400 text-sm rounded-lg block w-full pl-10 p-2.5   placeholder-gray-400 "
-            placeholder="Enter CNIC"
-            required
+            className={`outline-none  ${
+              errors.type ? 'border-[#fc1b1b]' : 'border-[#272727]'
+            } border bg-[#1b1b1b] text-gray-400 text-sm rounded block w-full pl-10 p-2.5 transition   placeholder-gray-400 `}
+            placeholder="Enter expense type"
+            {...register('type', {
+              required: {
+                value: true,
+                message: 'Expense type is required',
+              },
+              onChange: validateInput,
+            })}
           />
         </div>
-        <div class="relative w-full shadow">
-          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+        <p className=" font-normal text-red-500 text-xs  h-[20px]  ">
+          {errors.type && errors.type.message}
+        </p>
+        <div className="relative w-full  pe-2  ">
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="w-5 h-5 text-gray-500 dark:text-gray-400"
-              viewBox="0 0 15 15"
+              className="w-5 h-5 text-gray-400"
+              viewBox="0 0 16 16"
             >
-              <path
-                fill="currentColor"
-                fill-rule="evenodd"
-                d="M0 3.5A1.5 1.5 0 0 1 1.5 2h12A1.5 1.5 0 0 1 15 3.5v8a1.5 1.5 0 0 1-1.5 1.5h-12A1.5 1.5 0 0 1 0 11.5v-8ZM3 6a2 2 0 1 1 4 0a2 2 0 0 1-4 0Zm9 0H9V5h3v1Zm0 3H9V8h3v1ZM5 9a2.927 2.927 0 0 0-2.618 1.618l-.33.658A.5.5 0 0 0 2.5 12h5a.5.5 0 0 0 .447-.724l-.329-.658A2.927 2.927 0 0 0 5 9Z"
-                clip-rule="evenodd"
-              />
+              <g fill="currentColor">
+                <path d="M8 10a2 2 0 1 0 0-4a2 2 0 0 0 0 4z" />
+                <path d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V4zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2H3z" />
+              </g>
             </svg>
           </div>
           <input
-            type="text"
-            id="voice-search"
-            class="outline-none border-b-[#272727] bg-[#1b1b1b] text-gray-400 text-sm rounded-lg block w-full pl-10 p-2.5   placeholder-gray-400 "
-            placeholder="Enter CNIC"
-            required
+            type="number"
+            className={`outline-none  ${
+              errors.amount ? 'border-[#fc1b1b]' : 'border-[#272727]'
+            } border bg-[#1b1b1b] text-gray-400 text-sm rounded block w-full pl-10 p-2.5 transition   placeholder-gray-400 `}
+            placeholder="Enter expense amount"
+            {...register('amount', {
+              required: {
+                value: true,
+                message: 'Expense amount is required',
+              },
+              onChange: validateInput,
+            })}
           />
         </div>
-
+        <p className=" font-normal text-red-500 text-xs  h-[20px]  ">
+          {errors.amount && errors.amount.message}
+        </p>
         <button
           type="submit"
-          class="w-full text-white   focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-[#22722E]"
+          className="w-full text-white    font-medium rounded text-sm px-5 py-2.5 text-center bg-[#22722E] outline-none"
+          onClick={handleSubmit(submit)}
         >
           Add
         </button>

@@ -1,12 +1,48 @@
-import React, { useEffect } from 'react';
+import { ipcRenderer } from 'electron';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import { currentDate } from '../../util';
 
 const Pay = ({ handler }) => {
   const balance = useSelector((curr) => curr.getBalance);
+  const containerRef = useRef(null);
+  const elementRef = useRef(null);
 
-  useEffect(() => {
-    console.log(balance);
-  }, [balance]);
+  ipcRenderer.once('payingHistoryUpdate', (event, data) => {
+    data.status === 200 && handler(false);
+  });
+
+  const validateInput = (event) => {
+    if (event.target.value === '' || event.target.value > balance.balance) {
+      containerRef.current.classList.remove('bg-green-700');
+      containerRef.current.classList.add('bg-red-700');
+    } else {
+      containerRef.current.classList.remove('bg-red-700');
+      containerRef.current.classList.add('bg-green-700');
+    }
+  };
+
+  const handleSubmit = () => {
+    if (elementRef.current && containerRef.current) {
+      if (
+        elementRef.current.value !== '' &&
+        elementRef.current.value <= balance.balance
+      ) {
+        ipcRenderer.send('updateRecord', {
+          tableName: 'payingHistory',
+          columns: {
+            date: currentDate(),
+            balance: balance.balance - elementRef.current.value,
+            paid: parseInt(elementRef.current.value),
+          },
+          condition: 'phoneNumber',
+          id: balance.phoneNumber,
+        });
+      }
+    }
+  };
+
+  useEffect(() => {}, [balance]);
 
   return (
     <>
@@ -14,7 +50,7 @@ const Pay = ({ handler }) => {
         className="absolute top-0 w-full h-full flex justify-center items-center bg-[#0c0c0cd5] z-40"
         onClick={() => handler(false)}
       ></div>
-      <div class="absolute top-[50%] flex z-50">
+      <div class="absolute top-[50%] flex z-50 transition ">
         <button
           id="dropdown-button"
           data-dropdown-toggle="dropdown"
@@ -39,31 +75,34 @@ const Pay = ({ handler }) => {
               </svg>
             </div>
             <input
+              ref={elementRef}
               type="number"
               id="voice-search"
               class="outline-none border-b-[#272727] bg-[#1b1b1b] text-gray-400 rounded-e-lg h-full text-sm block w-full pl-10 p-2.5   placeholder-gray-400 "
               placeholder="Recevied Amount"
+              onChange={validateInput}
               required
             />
           </div>
           <button
+            ref={containerRef}
             type="submit"
-            class="absolute top-0 right-0 p-2.5 h-full text-sm font-medium text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            class="absolute top-0 right-0 p-2.5 h-full text-sm font-medium text-white bg-red-700 rounded-r-lg  flex justify-center items-center outline-none"
+            onClick={handleSubmit}
           >
             <svg
-              aria-hidden="true"
-              class="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
+              className="w-5 h-5"
+              viewBox="0 0 24 24"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              ></path>
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 4h10v14a2 2 0 0 1-2 2H9m3-5l3-3m0 0l-3-3m3 3H5"
+              />
             </svg>
           </button>
         </div>

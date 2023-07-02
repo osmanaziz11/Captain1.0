@@ -71,6 +71,29 @@ export async function updateItem(data) {
   });
 }
 
+export async function updatePayingHistory(data) {
+  return new Promise((resolve, reject) => {
+    const { columns, condition, id } = data;
+
+    const updateSQL = `UPDATE payingHistory SET date = '${columns.date}',${
+      condition === 0
+        ? `paid=${columns.paid},balance=balance - ${columns.balance}`
+        : `balance=balance + ${columns.balance}`
+    }  WHERE phoneNumber ='${id}'`;
+    console.log(updateSQL);
+
+    db.run(updateSQL, function (err) {
+      if (err) {
+        console.error(err);
+        reject(err);
+      } else {
+        console.log(`Record updated successfully in payingHistory table`);
+        resolve();
+      }
+    });
+  });
+}
+
 export async function updateRecord(data) {
   return new Promise((resolve, reject) => {
     const { tableName, columns, condition, id } = data;

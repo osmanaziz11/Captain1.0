@@ -68,3 +68,12 @@ export const getHistory = (data) => {
     ipcRenderer.send('getHistory', data);
   };
 };
+
+export const getExpense = () => {
+  return async (dispatch) => {
+    ipcRenderer.once('get_expenses', (event, data) => {
+      dispatch({ type: 'ALL_EXPENSE', payload: data });
+    });
+    ipcRenderer.send('getAll', 'expenses');
+  };
+};
