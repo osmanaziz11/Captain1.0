@@ -74,6 +74,14 @@ const Cart = ({ handler, render }) => {
             quantity: item.quantity,
           },
         });
+        ipcRenderer.send('insertRecord', {
+          tableName: 'saleHistory',
+          columns: {
+            name: item.name,
+            date: currentDate(),
+            sold: parseInt(item.quantity.split(' ')[1][0]),
+          },
+        });
       } catch (error) {}
     });
   };

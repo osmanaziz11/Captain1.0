@@ -25,5 +25,10 @@ const Schema = [
     tableName: 'expenses',
     columns: 'date DATE,type TEXT,amount REAL',
   },
+  {
+    tableName: 'saleHistory',
+    columns:
+      'name TEXT,date DATE,sold INTEGER,FOREIGN KEY (name) REFERENCES items(name)',
+  },
 ];
 export default Schema;

@@ -1,8 +1,8 @@
 export const currentDate = () => {
-  var currentDate = new Date();
-  var year = currentDate.getFullYear();
-  var month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
-  var day = ('0' + currentDate.getDate()).slice(-2);
-  var formattedDate = year + '-' + month + '-' + day;
-  return formattedDate;
+  const date = new Date();
+  const month = date.toLocaleString('default', { month: 'short' });
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  return `${month} ${day}, ${year}`;
 };
