@@ -1,10 +1,10 @@
 import Trademark from '../public/assets/trademark.svg';
 import Captain from '../public/assets/CAPTAIN.svg';
+import React, { useState, useEffect } from 'react';
+import LoadingBar from 'react-top-loading-bar';
 import version from '../public/assets/1.0.svg';
 import Logo from '../public/assets/logo.svg';
-import LoadingBar from 'react-top-loading-bar';
 import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 
 const SplashScreen = () => {

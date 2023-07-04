@@ -59,9 +59,11 @@ const LeftBar = () => {
         <li className="p-1 bg-[#272727] rounded w-full mb-3">
           <img src={`/assets/setting.svg`} alt="" />
         </li>
-        <li className="p-1 bg-[#272727] rounded">
-          <img src={`/assets/logout.svg`} alt="" />
-        </li>
+        <Link href="/Login">
+          <li className="p-1 bg-[#272727] rounded cursor-pointer">
+            <img src={`/assets/logout.svg`} alt="" />
+          </li>
+        </Link>
       </ul>
     </div>
   );
