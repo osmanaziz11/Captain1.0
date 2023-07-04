@@ -42,6 +42,14 @@ const updateBalance = (state = {}, action) => {
       return state;
   }
 };
+const appPreferences = (state = {}, action) => {
+  switch (action.type) {
+    case 'APP_PREFERENCES':
+      return action.payload;
+    default:
+      return state;
+  }
+};
 const items = (state = [], action) => {
   switch (action.type) {
     case 'ALL_ITEMS':
@@ -80,6 +88,7 @@ const memberHistory = (state = [], action) => {
 // ==== Root Reducers =====
 const rootReducer = combineReducers({
   getCartItems: cartManuplation,
+  getPreferences: appPreferences,
   getHistory: memberHistory,
   getCategories: categories,
   getBalance: updateBalance,

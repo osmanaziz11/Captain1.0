@@ -30,5 +30,9 @@ const Schema = [
     columns:
       'name TEXT,date DATE,sold INTEGER,FOREIGN KEY (name) REFERENCES items(name)',
   },
+  {
+    tableName: 'admin',
+    columns: 'username TEXT PRIMARY KEY,password TEXT',
+  },
 ];
 export default Schema;

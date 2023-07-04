@@ -35,6 +35,13 @@ export function updateBalance(payload) {
   };
 }
 
+export function appPreferences(payload) {
+  return {
+    type: 'APP_PREFERENCES',
+    payload,
+  };
+}
+
 export const getCategories = () => {
   return async (dispatch) => {
     ipcRenderer.once('get_categories', (event, data) => {
