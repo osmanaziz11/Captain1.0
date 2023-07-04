@@ -1,14 +1,23 @@
-import React from 'react';
-import Layout from '../components/Layout';
 import Table from '../components/GameType/Table';
+import { useSelector } from 'react-redux';
+import Layout from '../components/Layout';
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 const Home = () => {
+  const app = useSelector((curr) => curr.getPreferences);
+  const router = useRouter();
   const tables = [
     { name: 'Victory Snooker ' },
     { name: 'Elite Cue' },
     { name: 'Prestige Billiards' },
     { name: 'Royal Champion' },
   ];
+
+  useEffect(() => {
+    if (app.role === '') router.replace('/Login');
+    return () => {};
+  }, [app]);
 
   return (
     <Layout title="Game Type">
