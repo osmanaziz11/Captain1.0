@@ -32,7 +32,26 @@ const Schema = [
   },
   {
     tableName: 'admin',
-    columns: 'username TEXT PRIMARY KEY,password TEXT',
+    columns: 'username TEXT PRIMARY KEY,password TEXT,name TEXT,email TEXT',
+  },
+  {
+    tableName: 'players',
+    columns:
+      'id TEXT PRIMARY KEY,name TEXT,gameId TEXT,tableId Text,FOREIGN KEY (gameId) REFERENCES games(id)',
+  },
+  {
+    tableName: 'games',
+    columns: 'id TEXT PRIMARY KEY,type TEXT,price REAL',
+  },
+  {
+    tableName: 'tables',
+    columns:
+      'id TEXT PRIMARY KEY,name TEXT,status INTEGER,gameId TEXT,FOREIGN KEY (gameId) REFERENCES games(id)',
+  },
+  {
+    tableName: 'discount',
+    columns:
+      'id TEXT DEFAULT "DIS-D1",canteen REAL DEFAULT 0,game REAL DEFAULT 0',
   },
 ];
 export default Schema;

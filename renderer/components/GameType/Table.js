@@ -2,8 +2,8 @@ import OccupiedEffect from './OccupiedEffect';
 import FreeEffect from './FreeEffect';
 import React, { useState } from 'react';
 
-const Table = ({ name }) => {
-  const [gameState, setGameState] = useState(true);
+const Table = ({ name, status, game }) => {
+  const [gameState, setGameState] = useState(false);
   return (
     // ====== Table Container ======
     <div className="h-[260px] w-[500px]  rounded-2xl relative shadow-2xl shadow-black flex justify-center">
@@ -16,7 +16,7 @@ const Table = ({ name }) => {
         {name}
       </h1>
       <div className="w-full h-full absolute top-0 ">
-        {gameState ? <OccupiedEffect /> : <FreeEffect game={setGameState} />}
+        {game ? <OccupiedEffect /> : <FreeEffect game={setGameState} />}
       </div>
     </div>
   );

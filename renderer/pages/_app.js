@@ -10,11 +10,7 @@ import Login from './Login';
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   if (router.pathname === '/splash') {
-    return (
-      <Provider store={store}>
-        <Component {...pageProps} />;
-      </Provider>
-    );
+    return <Component {...pageProps} />;
   } else {
     return (
       <>
