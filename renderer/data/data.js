@@ -1,4 +1,4 @@
-export const gameOptions = [
+export const types = [
   {
     name: 'Single',
     image: 'gametype1.jpg',

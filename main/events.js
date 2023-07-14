@@ -13,6 +13,16 @@ ipcMain.on('getAll', (event, data) => {
     });
 });
 
+ipcMain.on('getTables', (event) => {
+  db.gamesOnTable()
+    .then((rows) => {
+      event.reply(`tablesEvent`, rows);
+    })
+    .catch((err) => {
+      event.reply(`tablesEvent`, []);
+    });
+});
+
 ipcMain.on('getMembers', (event) => {
   db.retrieveMembers()
     .then((rows) => {
@@ -31,6 +41,17 @@ ipcMain.on('getHistory', (event, data) => {
     .catch((err) => {
       event.reply(`get_memberHistory`, []);
     });
+});
+
+ipcMain.on('fetchRecord', async (event, data) => {
+  try {
+    const resp = await db.singleRecord(data);
+    resp &&
+      event.reply(`fetchRecord${data.tableName}`, { status: 200, data: resp });
+  } catch (err) {
+    const status = JSON.parse(JSON.stringify(err)).errno == 19 ? 400 : 504;
+    event.reply(`fetchRecord${data.tableName}`, { status, messeage: err });
+  }
 });
 
 ipcMain.on('insertRecord', async (event, data) => {

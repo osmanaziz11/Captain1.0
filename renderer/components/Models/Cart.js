@@ -1,4 +1,4 @@
-import { getMembers, removeFromCart, resetCart } from '../../redux/action';
+import { getMembers, resetCart } from '../../redux/action';
 import { useDispatch, useSelector } from 'react-redux';
 import TableBill from '../Canteen/TableBill';
 import { useForm } from 'react-hook-form';
@@ -173,7 +173,7 @@ const Cart = ({ handler, render }) => {
             <tr>
               <th
                 scope="col"
-                class="px-4 py-2 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400"
+                class="px-4 py-2 text-sm font-medium text-center rtl:text-right text-gray-500 dark:text-gray-400"
               >
                 Item Name
               </th>

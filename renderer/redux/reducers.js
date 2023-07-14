@@ -50,6 +50,15 @@ const appPreferences = (state = {}, action) => {
       return state;
   }
 };
+
+const gameProfile = (state = {}, action) => {
+  switch (action.type) {
+    case 'GAME_PROFILE':
+      return action.payload;
+    default:
+      return state;
+  }
+};
 const items = (state = [], action) => {
   switch (action.type) {
     case 'ALL_ITEMS':
@@ -87,8 +96,9 @@ const memberHistory = (state = [], action) => {
 
 // ==== Root Reducers =====
 const rootReducer = combineReducers({
-  getCartItems: cartManuplation,
   getPreferences: appPreferences,
+  getCartItems: cartManuplation,
+  getGameProfile: gameProfile,
   getHistory: memberHistory,
   getCategories: categories,
   getBalance: updateBalance,

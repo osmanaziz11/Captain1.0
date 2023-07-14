@@ -1,17 +1,16 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
-import NavIcons from './NavIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import { appPreferences } from '../../redux/action';
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import NavIcons from './NavIcons';
+import Link from 'next/link';
 
 const LeftBar = () => {
   const app = useSelector((curr) => curr.getPreferences);
   const dispatch = useDispatch();
   const rounter = useRouter();
-  useEffect(() => {
-    console.log(app);
-  }, [app]);
+
+  useEffect(() => {}, [app]);
 
   const logout = () => {
     dispatch(appPreferences({ role: '' }));

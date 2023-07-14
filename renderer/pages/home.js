@@ -89,21 +89,14 @@ const Home = () => {
     }
   };
 
-  const handleSale=(value)=>{
-    if(value==='today')
-    {
+  const handleSale = (value) => {
+    if (value === 'today') {
       const currDate = new Date(currentDate());
       let amount = 0;
-
-    }else if(value==='weekly')
-    {
-
-    }else if(value==='monthly')
-    {
-
+    } else if (value === 'weekly') {
+    } else if (value === 'monthly') {
     }
-
-  }
+  };
 
   useEffect(() => {
     dispatch(getExpense());
@@ -124,7 +117,12 @@ const Home = () => {
           date="23 May 2023"
           amount={saleAmount.profit}
         />
-        <Box title="Total Sale" date="23 May 2023" amount={saleAmount.amount} handler={handleSale} />
+        <Box
+          title="Total Sale"
+          date="23 May 2023"
+          amount={saleAmount.amount}
+          handler={handleSale}
+        />
         <Box title="Total Inventory" amount={invAmount} handler={undefined} />
         <Box
           title="Total Expense"
@@ -132,7 +130,12 @@ const Home = () => {
           handler={(e) => handleSelect(e.target.value)}
         />
         <Box title="Game Played" date="23 May 2023" amount={0} />
-        <Box title="Total Expense" date="23 May 2023" amount={0} />
+        <Box
+          title="Pending Amount"
+          date="23 May 2023"
+          amount={0}
+          handler={(e) => handleSelect(e.target.value)}
+        />
       </div>
     </div>
   );

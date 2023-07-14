@@ -136,6 +136,27 @@ export async function fetchRecords(tableName) {
   });
 }
 
+export async function gamesOnTable() {
+  return new Promise((resolve, reject) => {
+    const selectSQL = `SELECT A.*,B.type,B.price
+FROM tables A
+JOIN games B ON A.gameId = B.id;
+`;
+
+    db.all(selectSQL, function (err, rows) {
+      if (err) {
+        console.error(
+          `Error fetching records from Members and payingHistory:`,
+          err
+        );
+        reject(err);
+      } else {
+        console.log(`Fetched records successfully from games On Tables`);
+        resolve(rows);
+      }
+    });
+  });
+}
 export async function retrieveMembers() {
   return new Promise((resolve, reject) => {
     const selectSQL = `SELECT A.name, A.phoneNumber,A.cnic,B.date, B.paid, B.balance
@@ -172,6 +193,21 @@ export async function deleteRecord(data) {
       } else {
         console.log(`Record deleted successfully from ${tableName}`);
         resolve();
+      }
+    });
+  });
+}
+
+export async function singleRecord(data) {
+  return new Promise((resolve, reject) => {
+    const { tableName, condition, id } = data;
+    const getSQL = `Select * FROM ${tableName} WHERE ${condition} = "${id}"`;
+    db.all(getSQL, function (err, row) {
+      if (err) {
+        reject(err);
+      } else {
+        console.log(`Single Record fetched successfully from ${tableName}`);
+        resolve(row);
       }
     });
   });

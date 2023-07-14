@@ -1,7 +1,7 @@
 import { gameOptions, optionTypes } from '../../data/data';
 import React, { useRef, useState } from 'react';
-import Option from './Option';
 import PlayersDetail from './PlayersDetail';
+import Option from './Option';
 
 const GameOptions = () => {
   const optionRef = useRef(null);
@@ -39,7 +39,7 @@ const GameOptions = () => {
 
   return (
     <>
-      <div className="relative w-full h-[120px] overflow-hidden flex flex-col justify-center items-center">
+      <div className="relative w-full h-[120px] overflow-hidden flex flex-col justify-center items-center  bg-red-700">
         <div ref={optionRef} className={`flex  absolute z-50  active`}>
           {gameOptions.length > 0 &&
             gameOptions.map((type, idx) => {

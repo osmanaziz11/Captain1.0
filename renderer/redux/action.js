@@ -42,6 +42,13 @@ export function appPreferences(payload) {
   };
 }
 
+export function gameProfile(payload) {
+  return {
+    type: 'GAME_PROFILE',
+    payload,
+  };
+}
+
 export const getCategories = () => {
   return async (dispatch) => {
     ipcRenderer.once('get_categories', (event, data) => {

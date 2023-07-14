@@ -46,12 +46,16 @@ const Schema = [
   {
     tableName: 'tables',
     columns:
-      'id TEXT PRIMARY KEY,name TEXT,status INTEGER,gameId TEXT,FOREIGN KEY (gameId) REFERENCES games(id)',
+      'id TEXT PRIMARY KEY,name TEXT,status INTEGER,gameId TEXT,frame TEXT,FOREIGN KEY (gameId) REFERENCES games(id)',
   },
   {
     tableName: 'discount',
     columns:
       'id TEXT DEFAULT "DIS-D1",canteen REAL DEFAULT 0,game REAL DEFAULT 0',
+  },
+  {
+    tableName: 'gameExpenses',
+    columns: 'date DATE,gameType TEXT,cash REAL,expense REAL',
   },
 ];
 export default Schema;
