@@ -24,7 +24,7 @@ const LeftBar = () => {
     },
     {
       icon: 'Home',
-      slug: '/home',
+      slug: '/report',
     },
     {
       icon: 'Manage',
@@ -52,6 +52,7 @@ const LeftBar = () => {
     <div className="nav bg-[#141414] w-[50px] h-screen absolute left-0 top-0 px-2 z-0">
       <ul className="  h-3/4 pt-14">
         {menu.map((item, idx) => {
+          if (app.role !== 'Admin' && item.slug === '/setting') return;
           return app.role !== 'Admin' ? (
             item.icon !== 'Home' && (
               <Link href={item.slug} key={idx}>

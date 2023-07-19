@@ -12,7 +12,9 @@ function DiscountSetting() {
     const inputs = document.querySelectorAll('#dinputContainer input');
     inputs.forEach((input) => {
       if (input.value !== '') {
-        cols[input.getAttribute('data-id')] = input.value;
+        cols[input.getAttribute('data-id')] = input.value.includes('%')
+          ? parseInt(input.value.slice(0, -1)) / 100
+          : parseInt(input.value) / 100;
       }
     });
     ipcRenderer.send('updateRecord', {
@@ -24,8 +26,8 @@ function DiscountSetting() {
   };
 
   const profile = [
-    { col: 'canteen', type: 'text', placeholder: 'Rs 0.0' },
-    { col: 'game', type: 'text', placeholder: 'Rs 0.0' },
+    { col: 'canteen', type: 'text', placeholder: '0%' },
+    { col: 'game', type: 'text', placeholder: '0%' },
   ];
 
   useEffect(() => {
@@ -43,7 +45,7 @@ function DiscountSetting() {
             const opts = {
               placeholder: field.placeholder,
               type: field.type,
-              value: data[0][field.col],
+              value: `${data[0][field.col] * 100}%`,
               id: field.col,
               handler: setEditBtn,
             };

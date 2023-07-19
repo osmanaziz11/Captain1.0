@@ -46,7 +46,8 @@ if (isProd) {
     await mainWindow.loadURL('app://./home.html');
   } else {
     splashWindow.loadURL('http://localhost:8888/splash');
-    mainWindow.loadURL(`http://localhost:8888/`);
+    mainWindow.center();
+    mainWindow.loadURL(`http://localhost:8888/Login`);
   }
 
   setTimeout(() => {

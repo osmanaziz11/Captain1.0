@@ -101,11 +101,19 @@ ipcMain.on('delete', async (event, data) => {
     const resp = await db.deleteRecord(data);
     event.reply(`delete_${data.tableName}`, { status: 1 });
   } catch (err) {
-    console.log(err);
     const msg = event.reply(`delete_${data.tableName}`, {
       status: 0,
       message: '',
     });
+  }
+});
+
+ipcMain.on('saleHistory', async (event) => {
+  try {
+    const data = await db.saleHistory();
+    event.reply(`shEvent`, data);
+  } catch (err) {
+    event.reply(`shEvent`, []);
   }
 });
 

@@ -85,9 +85,27 @@ const expense = (state = [], action) => {
       return state;
   }
 };
+
+const games = (state = [], action) => {
+  switch (action.type) {
+    case 'GAME_EXPENSES':
+      return [...action.payload];
+    default:
+      return state;
+  }
+};
 const memberHistory = (state = [], action) => {
   switch (action.type) {
     case 'MEMBER_HISTORY':
+      return [...action.payload];
+    default:
+      return state;
+  }
+};
+
+const saleHistory = (state = [], action) => {
+  switch (action.type) {
+    case 'SALE_HISTORY':
       return [...action.payload];
     default:
       return state;
@@ -99,6 +117,7 @@ const rootReducer = combineReducers({
   getPreferences: appPreferences,
   getCartItems: cartManuplation,
   getGameProfile: gameProfile,
+  getSaleHistory: saleHistory,
   getHistory: memberHistory,
   getCategories: categories,
   getBalance: updateBalance,
@@ -106,6 +125,7 @@ const rootReducer = combineReducers({
   getMembers: members,
   cartModel: cart,
   getItems: items,
+  getGames: games,
 });
 
 export default rootReducer;

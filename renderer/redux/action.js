@@ -91,3 +91,21 @@ export const getExpense = () => {
     ipcRenderer.send('getAll', 'expenses');
   };
 };
+
+export const getGames = () => {
+  return async (dispatch) => {
+    ipcRenderer.once('get_gameExpenses', (event, data) => {
+      dispatch({ type: 'GAME_EXPENSES', payload: data });
+    });
+    ipcRenderer.send('getAll', 'gameExpenses');
+  };
+};
+
+export const getSaleHistory = () => {
+  return async (dispatch) => {
+    ipcRenderer.once('shEvent', (event, data) => {
+      dispatch({ type: 'SALE_HISTORY', payload: data });
+    });
+    ipcRenderer.send('saleHistory');
+  };
+};

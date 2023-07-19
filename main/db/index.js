@@ -136,6 +136,28 @@ export async function fetchRecords(tableName) {
   });
 }
 
+export async function saleHistory() {
+  return new Promise((resolve, reject) => {
+    const selectSQL = `SELECT A.*,B.purchasePrice,B.salePrice
+FROM saleHistory A
+JOIN Items B ON A.name = B.name;
+`;
+
+    db.all(selectSQL, function (err, rows) {
+      if (err) {
+        console.error(
+          `Error fetching records from Sale History and Items:`,
+          err
+        );
+        reject(err);
+      } else {
+        console.log(`Fetched records successfully from Sale History and Items`);
+        resolve(rows);
+      }
+    });
+  });
+}
+
 export async function gamesOnTable() {
   return new Promise((resolve, reject) => {
     const selectSQL = `SELECT A.*,B.type,B.price
